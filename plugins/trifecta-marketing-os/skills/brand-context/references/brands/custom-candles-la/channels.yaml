@@ -1,0 +1,35 @@
+# Custom Candles LA: channel routing for the Trifecta Marketing OS plugin.
+# Values marked "confirm" must be checked live (Metricool getBrandSettings) before first use.
+brand: custom-candles-la
+display_name: Custom Candles LA
+priority: primary            # per current-priorities.md: promotional focus shifted to CCLA
+metricool:
+  blog_id: 4752699           # Metricool brand ("blog") id
+  networks: [instagram, facebook, pinterest, google_business_profile, linkedin, youtube]   # confirm via getBrandSettings
+google:                      # SEO and attribution sources (Google only; no third-party SEO tools)
+  gsc_site_url: "sc-domain:customcandlesla.com"   # confirm property type (domain vs URL prefix) in Search Console
+  ga4_property_id: ""        # fill: numeric GA4 property id
+  ads_customer_id: ""        # fill: 10-digit Google Ads account id, no dashes
+  ads_login_customer_id: ""  # fill: manager (MCC) account id used for API access
+email:
+  platform: ghl              # DECISION PENDING with Julie: ghl | klaviyo (July 2026 split: Klaviyo = newsletters, GHL = nurture)
+  fallback_platform: klaviyo
+  ghl_location_id: ""        # fill at setup (GHL sub-account / location id)
+  ghl_audience_tag: ""       # fill at setup (tag or smart list used for newsletter sends)
+  klaviyo_list_id: ""        # fill if Klaviyo stays
+format_mix_default:          # starting point; performance-optimizer rebalances from real results
+  instagram_reel: 2
+  instagram_carousel: 2
+  instagram_feed: 1
+  instagram_story: 3
+  google_business_post: 1
+  newsletter: 1
+visual_production:
+  ai_generation: allowed        # social, ads, email, Reels via visual-studio; NEVER blog images
+  stills: higgsfield-or-drive   # nano_banana_pro (product in scene, from real product photo) / soul_cinematic (empty scenes)
+  video: higgsfield             # kling3_0 pro image-to-video, 9:16, from an approved still
+  visual_system: visual-system.md
+  prompt_library: prompt-library.md
+  canva_templates: {instagram_carousel: EAHMIyKBn9Y, instagram_story: EAHMIwRTRFE}
+hashtag_blocklist: [soap, skincare, lotion, bodywash, bathbomb, soapmaking, bodylotion]
+location_tag: Los Angeles, California

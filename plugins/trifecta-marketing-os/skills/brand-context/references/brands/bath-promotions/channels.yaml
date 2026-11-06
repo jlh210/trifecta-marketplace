@@ -1,0 +1,30 @@
+brand: bath-promotions
+display_name: Bath Promotions
+priority: secondary          # events winding down; new campaigns are exceptions to confirm with Julie
+metricool:
+  blog_id: 4752758
+  networks: [instagram, facebook, linkedin, google_business_profile]   # confirm via getBrandSettings
+google:                      # SEO and attribution sources (Google only; no third-party SEO tools)
+  gsc_site_url: "sc-domain:bathpromotions.com"   # confirm property type (domain vs URL prefix) in Search Console
+  ga4_property_id: ""        # fill: numeric GA4 property id
+  ads_customer_id: ""        # fill: 10-digit Google Ads account id, no dashes
+  ads_login_customer_id: ""  # fill: manager (MCC) account id used for API access
+email:
+  platform: ghl              # DECISION PENDING (see custom-candles-la/channels.yaml)
+  fallback_platform: klaviyo
+  ghl_location_id: ""
+  ghl_audience_tag: ""
+  klaviyo_list_id: QNqnYf    # existing Klaviyo list
+format_mix_default:
+  instagram_carousel: 2      # How It's Made / How to Sell It
+  instagram_reel: 1
+  linkedin_image: 1
+  google_business_post: 1
+  newsletter: 1
+visual_production:
+  ai_generation: forbidden
+  stills: drive-finalized    # BP uses NO AI generation; pull from campaign Drive /finalized
+  video: drive-finalized
+  canva_brand_kit: kAGLsOXFbf0
+  canva_templates: {story: EAHMswa6Fjw, carousel: EAHLp1MI2RY, reels_cover: EAHMIyxkbOM, email_newsletter: EAHMs1aAwxE, google_business_profile: EAHMsyTih5k}
+location_tag: Carson, California

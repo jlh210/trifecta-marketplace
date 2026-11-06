@@ -1,0 +1,29 @@
+brand: julie-warnock-personal
+display_name: Julie Warnock (Founder)
+priority: supporting         # founder content feeds CCLA credibility
+metricool:
+  blog_id: 6134590
+  networks: [linkedin, instagram]   # confirm via getBrandSettings
+google:                      # SEO and attribution sources (Google only; no third-party SEO tools)
+  gsc_site_url: ""   # fill: founder site, if one exists
+  ga4_property_id: ""        # fill: numeric GA4 property id
+  ads_customer_id: ""        # fill: 10-digit Google Ads account id, no dashes
+  ads_login_customer_id: ""  # fill: manager (MCC) account id used for API access
+email:
+  platform: ghl              # DECISION PENDING
+  fallback_platform: klaviyo
+  ghl_location_id: ""
+  ghl_audience_tag: ""
+  klaviyo_list_id: ""
+format_mix_default:
+  linkedin_carousel: 1
+  linkedin_image: 1
+  instagram_carousel: 1
+  instagram_reel: 1
+  newsletter: 1              # founder essay
+visual_production:
+  ai_generation: forbidden    # Canva + founder-recorded only; never generate Julie or any person
+  stills: canva              # Canva-based, no Higgsfield
+  video: founder-recorded
+  canva_templates: {instagram_carousel_slide1: EAHMI84WqzU, instagram_carousel_slides2_4: EAHMI21AcWg, instagram_story: EAHMI2Y1rP8}
+location_tag: Los Angeles, California

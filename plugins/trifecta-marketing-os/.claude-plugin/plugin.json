@@ -1,0 +1,19 @@
+{
+  "name": "trifecta-marketing-os",
+  "version": "1.3.0",
+  "description": "Trifecta Marketing OS for Bath Promotions, Custom Candles LA and the Julie Warnock founder brand: research ideas, build full campaigns, write newsletters into GoHighLevel, generate on-brand Higgsfield images and video, schedule social posts in Metricool with Instagram SEO and correct output sizes, measure with Google Search Console, GA4 and Google Ads, and score every post and campaign on engagement and conversion in a Google Sheets ledger that tunes the queue.",
+  "author": {
+    "name": "Intellier AI Technologies"
+  },
+  "license": "LicenseRef-Intellier-Proprietary",
+  "keywords": [
+    "marketing",
+    "custom-candles-la",
+    "bath-promotions",
+    "instagram-seo",
+    "metricool",
+    "gohighlevel",
+    "newsletter"
+  ],
+  "displayName": "Trifecta Marketing OS"
+}
