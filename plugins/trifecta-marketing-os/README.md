@@ -25,6 +25,9 @@ One plugin, two layers:
 | `business-analyzer` | Decision-first answers from real data | "why did reach drop" |
 | `campaign-autopilot` | Sunday: builds one campaign per brand; Monday: approval package in Claude; on approval, schedules in Metricool | "show me this week's campaigns", "approve all" |
 | `marketing-routines-setup` | Connector check, Ledger, three scheduled tasks | "set up the marketing routines" |
+| `seo-audit` | Weekly website check for bathpromotions.com and customcandlesla.com: score out of 100, Search Console page-2 opportunities, safe Shopify fixes, emailed report | "/seo audit", "how is our SEO" |
+| `seo-setup` | Connectors, Ledger SEO tabs, baseline audit, Weekly SEO Check scheduled task | "/seo setup" |
+| `seo-doctor` | Read-only health check of the SEO check | "/seo doctor" |
 
 Agents: `brand-reviewer` (voice and claims gate), `marketing-researcher` (cited market signals).
 
@@ -52,7 +55,8 @@ SEO and search-demand work uses only Google Search Console, Google Analytics 4 a
 ## Approval gates
 
 - Nothing is scheduled or created in GHL without explicit approval in chat.
-- Emails are drafts only; this plugin never sends.
+- Marketing emails are drafts only; this plugin never sends them. The one exception is the internal weekly SEO report, emailed only to `seo_report_to`.
+- The weekly SEO check may only fill blank meta descriptions and blank product image alt text (`seo_autofix` = `auto`, capped, logged, reversible); everything else is proposed.
 - The optimizer starts in `approval` mode (Ledger Settings tab). In `auto` mode it may only change time, first line, hashtags/keyword and alt text on posts still queued 6+ hours out, capped per brand per week, with an undo trail.
 
 ## Weekly autopilot
@@ -79,3 +83,8 @@ Single source: `skills/marketing-os/references/output-specs.yaml`. Every file pa
 ## Updating
 
 Brand facts change only in `skills/brand-context/`. Bump `version` in `.claude-plugin/plugin.json` and push to the marketplace repo; the org syncs. Re-verify `output-specs.yaml` quarterly.
+
+## Weekly SEO check
+
+Wednesdays ~11:35 AM PT a scheduled task on Julie's account crawls bathpromotions.com and customcandlesla.com with `skills/seo-audit/scripts/site_audit.py` (standard library only), scores each site out of 100 (indexability, metadata, schema, images, internal links, AEO readiness, mobile speed), adds Search Console page-2 opportunities, and compares with last week in the Ledger's "SEO Runs" and "SEO Issues" tabs. With `seo_autofix` = `auto` it fills **blank** meta descriptions and **blank** product image alt text in Shopify (capped per brand, brand-reviewer checked, logged in Changes, reversible); everything else is a recommendation. The report is posted in Claude and emailed to `seo_report_to`. Set up with "/seo setup"; check health with "/seo doctor".
+

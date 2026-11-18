@@ -26,6 +26,9 @@ The Marketing OS runs a brand's marketing from inside Claude: research ideas, bu
 | A specific business or performance question | `business-analyzer` |
 | Weekly campaigns for all brands, approval package, "approve" / "change post 3" replies | `campaign-autopilot` |
 | Set up the weekly routines and the Marketing Ledger | `marketing-routines-setup` |
+| Website SEO audit, "/seo audit", AEO readiness, the weekly SEO check | `seo-audit` |
+| Set up the weekly SEO check, "/seo setup" | `seo-setup` |
+| Is the SEO check working, "/seo doctor" | `seo-doctor` |
 
 When a request spans several (for example "plan and schedule next week for CCLA"), run them in flow order: ideation, brief, builder (which calls instagram-seo, newsletter-builder, social-scheduler).
 
@@ -37,7 +40,7 @@ Every skill gets brand facts for Bath Promotions, Custom Candles LA and the Juli
 
 1. **Real data or an honest "not yet".** Never invent a metric, search volume, trend, competitor fact or result. Label inference as inference.
 2. **Brand separation.** Content that would fit the wrong brand is wrong. Run the `brand-reviewer` agent on every customer-facing output before approval.
-3. **Approval gates.** Nothing publishes, schedules or sends without explicit human approval in a Claude conversation. Edits to the sheet, documents or captions never count as approval. Emails are created as drafts only and never sent by this plugin. Exceptions are only the guarded queue edits the performance optimizer is allowed (see its skill), and only once the Ledger's Settings tab has `optimizer_mode` = `auto`.
+3. **Approval gates.** Nothing publishes, schedules or sends without explicit human approval in a Claude conversation. Edits to the sheet, documents or captions never count as approval. Emails are created as drafts only and never sent by this plugin. Exceptions are only: the guarded queue edits the performance optimizer is allowed (see its skill), and only once the Ledger's Settings tab has `optimizer_mode` = `auto`; the weekly SEO check's safe website fixes (filling **blank** meta descriptions and **blank** product image alt text, capped, logged and reversible) while `seo_autofix` = `auto`; and the weekly SEO report, which `seo-audit` emails only to the internal address in `seo_report_to`, never to customers or lists.
 4. **Sizes come from `references/output-specs.yaml`.** Never type dimensions from memory. Every image or video passes `social-scheduler`'s preflight check before upload.
 5. **Instagram SEO on every Instagram post**, via `instagram-seo` rules. SEO evidence comes only from Search Console, GA4 and Google Ads; every published link carries the UTM convention in `references/seo-data-sources.md`.
 6. **Log everything that ships** to the Marketing Ledger (`references/ledger-schema.md`) with a campaign ID, so performance can be traced back.
@@ -46,7 +49,7 @@ Every skill gets brand facts for Bath Promotions, Custom Candles LA and the Juli
 
 ## Connectors this plugin expects
 
-GoHighLevel (email drafts, contacts, tags), Metricool (scheduling, analytics, best times), Canva (templates, resize), Google Sheets (the Marketing Ledger: performance tracking and optimization), Google Drive (product photography, finalized assets), and for all SEO and search data **only** Google Search Console, Google Analytics 4 and the Google Ads API (manager account). No third-party SEO tools. Optional: Higgsfield (AI imagery for brands that allow it), Klaviyo (if a brand keeps it), Shopify (product data).
+GoHighLevel (email drafts, contacts, tags), Metricool (scheduling, analytics, best times), Canva (templates, resize), Google Sheets (the Marketing Ledger: performance tracking and optimization), Google Drive (product photography, finalized assets), and for all SEO and search data **only** Google Search Console, Google Analytics 4 and the Google Ads API (manager account). No third-party SEO tools. Optional: Higgsfield (AI imagery for brands that allow it), Klaviyo (if a brand keeps it). The weekly SEO check also uses Shopify (safe fixes), Gmail (the internal report email) and Google PageSpeed Insights (mobile speed, keyless, best effort) alongside Search Console.
 
 Before a skill acts in a connector, check the connector's tools are available. If one is missing, say which connector to connect and continue with what can be done (for example, produce the assets without scheduling them).
 

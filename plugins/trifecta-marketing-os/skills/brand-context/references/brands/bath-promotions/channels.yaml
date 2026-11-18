@@ -9,6 +9,9 @@ google:                      # SEO and attribution sources (Google only; no thir
   ga4_property_id: ""        # fill: numeric GA4 property id
   ads_customer_id: ""        # fill: 10-digit Google Ads account id, no dashes
   ads_login_customer_id: ""  # fill: manager (MCC) account id used for API access
+seo:                         # website SEO check (seo-audit / seo-setup / seo-doctor)
+  site_url: "https://bathpromotions.com"
+  shopify_domain: "cd87jm-xr.myshopify.com"   # read from the live storefront 2026-11-18
 email:
   platform: ghl              # DECISION PENDING (see custom-candles-la/channels.yaml)
   fallback_platform: klaviyo

@@ -7,7 +7,7 @@ The loop's memory between runs: one Google Sheet named **Trifecta Marketing Ledg
 - **Only write data columns.** Grey columns are formulas (rates, baselines, Performance Index, verdicts, the whole Baselines and Campaign Scorecard tabs). Never overwrite them.
 - **Blank means not measured.** Never write 0 for a metric the source didn't return.
 - **Append rows** by writing to the first empty row below the last Post ID (or Email ID, etc.). Formulas are pre-built to row 501 on Posts and Emails; past that, copy the formula columns down from the row above with `update_formulas` before writing data.
-- Read Settings with `get_values` on `Settings!A2:B12` at the start of every run.
+- Read Settings with `get_values` on `Settings!A2:B12` at the start of every run (SEO skills read `Settings!A2:C40` to include the `seo_*` rows).
 - Example rows (IDs starting `EXAMPLE`, Status `example`) are ignored by baselines; delete them once real rows exist.
 
 ## Tabs
@@ -30,6 +30,11 @@ The loop's memory between runs: one Google Sheet named **Trifecta Marketing Ledg
 | review_folder | Trifecta Marketing/Campaign Review | Drive folder for review assets |
 | campaign_start_day | Tuesday | first publish day of an approved weekly campaign |
 | approval_reminder | Monday 15:00 | when the reminder run nudges in Claude |
+| seo_brands | custom-candles-la,bath-promotions | brands the weekly SEO check audits (sites in each brand's channels.yaml `seo` block) |
+| seo_autofix | auto | auto = fill blank meta descriptions and product image alt text within the cap; approval = propose only; off = report only |
+| seo_max_fixes_per_brand_per_run | 10 | cap on automatic SEO fixes per brand per run |
+| seo_pages_per_site | 25 | pages sampled per site each run (home plus every template) |
+| seo_report_to | (set at seo-setup) | the one address the weekly SEO report is emailed to |
 
 ### Campaigns (data)
 Campaign ID · Brand · Status (idea, building, awaiting_approval, approved, changes_requested, scheduled, live, done, killed) · Concept · Lead Keyword · Persona · Start · End · Brief Link · Owner · Approval (pending, approved, changes, rejected) · Approval Notes · Review Folder · Credits Used
@@ -69,4 +74,14 @@ Per campaign (mirrors Campaigns rows): posts, published, reach, engagements, eng
 Learning ID · Brand · Dimension (format, hook, time, keyword, visual, topic, cta, channel, conversion) · Learning · Evidence · Strength (note, pattern, rule) · First Seen · Last Confirmed
 
 ### Changes (optimizer audit trail)
-Change ID · Run Date · Post ID · Brand · What Changed (time, caption_first_line, hashtags, alt_text, keyword) · Before · After · Reason (evidence) · Mode (proposed, applied, reverted, rejected) · Applied By
+Change ID · Run Date · Post ID · Brand · What Changed (time, caption_first_line, hashtags, alt_text, keyword, seo_meta_description, seo_alt_text) · Before · After · Reason (evidence) · Mode (proposed, applied, reverted, rejected) · Applied By
+
+SEO fixes reuse this tab: Post ID holds the Shopify resource URL, Applied By is `seo-audit`.
+
+### SEO Runs (data, one row per brand per weekly SEO check)
+Run ID (`seo-<brand>-<yyyymmdd>`) · Run Date · Brand · Site · Score · Indexability · Metadata · Structured Data · Images · Internal Links · AEO · Speed · Not Measured · Critical · High · Medium · Low · Fixes Applied · Fixes Proposed · GSC Clicks 28d · GSC Impressions 28d · GSC Avg Position · Page-2 Opportunities · Run Type (full, partial) · Report Sent To
+
+Category columns are 0 to 100; blank = not measured that week.
+
+### SEO Issues (data, upserted by Brand + URL + Problem)
+Issue ID · Brand · Severity (critical, high, medium, low) · Category · URL · Problem · Fix Type (auto_meta_description, auto_alt, manual) · Status (open, proposed, fixed_auto, resolved, wont_fix) · First Seen · Last Seen · Last Run ID · Notes

@@ -1,6 +1,6 @@
 ---
 name: marketing-routines-setup
-description: "This skill should be used when the user wants to set up the Marketing OS for their team: \"set up the marketing routines\", \"create the weekly research routine\", \"schedule the optimizer\", \"set up the Marketing Ledger\", \"install the Marketing OS\", \"check marketing connectors\". Verifies connectors, creates the Google Sheets Marketing Ledger, and creates the three scheduled tasks (Weekly Campaign Autopilot, Approval Reminder, Performance Optimizer) on the approver's account.\n"
+description: "This skill should be used when the user wants to set up the Marketing OS for their team: \"set up the marketing routines\", \"create the weekly research routine\", \"schedule the optimizer\", \"set up the Marketing Ledger\", \"install the Marketing OS\", \"check marketing connectors\". Verifies connectors, creates the Google Sheets Marketing Ledger, and creates the three scheduled tasks (Weekly Campaign Autopilot, Approval Reminder, Performance Optimizer) on the approver's account, and hands off to seo-setup for the Weekly SEO Check.\n"
 metadata:
   version: "0.1.0"
 ---
@@ -60,6 +60,9 @@ Prompt to store:
 > Run the Trifecta Marketing OS Performance Optimizer routine. Load the marketing-os, brand-context and performance-optimizer skills. Read the Settings tab of the Google Sheet "Trifecta Marketing Ledger" for optimizer_mode, caps, active_brands, thresholds and weights. Run all five steps of performance-optimizer for each active brand. In approval mode, only propose queue changes and apply the ones approved in this conversation; in auto mode, apply only the allowed changes within the cap. Never delete posts, edit live posts, change visuals or touch emails. Post the run report and push a notification. If analytics are unavailable, report that and make no changes.
 
 After creating, report each task's name, schedule and whether its runs will ask before acting or run automatically (as returned by the tool). The autopilot needs to run unattended on Sunday night: if its runs will ask before acting, tell the user to switch it to automatic approval in its settings (if the organization allows it). That setting only covers tool permissions; publishing still waits for Julie's approval in the conversation, enforced by campaign-autopilot.
+
+**D. Weekly SEO Check** (Wednesdays ~11:35 AM)
+Set up by `seo-setup` (Step 5), which also adds the SEO tabs and settings to the Ledger and runs the baseline audit. If the user wants everything in one go, run `seo-setup` after the three tasks above.
 
 ## Step 5: Graduation
 
