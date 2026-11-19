@@ -1,0 +1,296 @@
+<!--
+  CCLA canonical blog post template.
+
+  This matches the real, live template already implemented in the client's
+  services/blog/writer.py (_build_html) — same CSS variable names, same class
+  names, same field placeholders. Verified against their actual code, not
+  just the original spec doc.
+
+  ADDITIONS not yet in their live writer.py, added here to close the AEO gaps
+  found in this project's research (JSON-LD schema, visible freshness date,
+  Open Graph / Twitter tags). Marked clearly below with "NEW —" comments so
+  whoever wires this into the real writer.py knows exactly what to port over.
+
+  Do not hand-write HTML into this file when generating a post. Fill in every
+  {{PLACEHOLDER}} programmatically the same way writer.py does today: Claude
+  produces only the copy fields as JSON, this template's structure/CSS never
+  changes per post.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ============================================================
+       SHOPIFY PAGE SETTINGS (copy-paste into the SEO fields)
+       Page title field:      {{PAGE_TITLE}}
+       SEO title tag (~55ch): {{SEO_TITLE}}
+       Meta description:      {{META_DESCRIPTION}}
+       URL slug (suggested):  {{URL_SLUG}}
+       ============================================================ -->
+  <title>{{SEO_TITLE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION}}" />
+  <link rel="canonical" href="{{CANONICAL_URL}}" />
+
+  <!-- NEW — Open Graph / Twitter, for social + some AI crawlers that read OG tags -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{SEO_TITLE}}" />
+  <meta property="og:description" content="{{META_DESCRIPTION}}" />
+  <meta property="og:image" content="{{HERO_IMAGE_SRC}}" />
+  <meta property="og:url" content="{{CANONICAL_URL}}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{SEO_TITLE}}" />
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}" />
+  <meta name="twitter:image" content="{{HERO_IMAGE_SRC}}" />
+
+  <!-- NEW — Article schema. dateModified is the freshness signal AI engines
+       weight heavily (60-83% of AI citations skew to content refreshed
+       within the last 6-12 months per the research this skill is built on).
+       Update dateModified for real whenever the post is substantively edited,
+       not on every deploy. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{HEADLINE}}",
+    "description": "{{META_DESCRIPTION}}",
+    "image": "{{HERO_IMAGE_SRC}}",
+    "datePublished": "{{DATE_PUBLISHED_ISO}}",
+    "dateModified": "{{DATE_MODIFIED_ISO}}",
+    "author": {
+      "@type": "Organization",
+      "name": "Custom Candles LA"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Custom Candles LA",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{BRAND_LOGO_URL}}"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{CANONICAL_URL}}"
+    }
+  }
+  </script>
+
+  <!-- NEW — FAQPage schema. Must mirror the visible FAQ block below exactly
+       (same questions, same answers) — schema that doesn't match visible
+       text is worse than no schema at all. Add/remove Question objects in
+       the mainEntity array to match however many FAQ items the post has
+       (4-5 total). JSON-LD does not support comments, so this note must
+       stay outside the <script> block. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "{{FAQ_Q1}}",
+        "acceptedAnswer": { "@type": "Answer", "text": "{{FAQ_A1}}" }
+      },
+      {
+        "@type": "Question",
+        "name": "{{FAQ_Q2}}",
+        "acceptedAnswer": { "@type": "Answer", "text": "{{FAQ_A2}}" }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ============================================================
+       CCLA BRAND COLOR VARIABLES
+       Resolve from fragrance_color_intelligence.yaml at generation time:
+       accent_hex = family_config["color_palette"]["primary"]
+       text_hex   = brand.yaml["primary_color"]  (#3F2F2D)
+       This matches services/blog/writer.py::generate_blog_post() exactly.
+       Never leave these on the fallback values below in a published post.
+       ============================================================ */
+    :root {
+      --ccla-text: #3F2F2D;        /* brand.yaml primary_color, resolved per post */
+      --ccla-text-soft: #444;
+      --ccla-muted: #8a8a8a;       /* structural gray, not a brand color */
+      --ccla-border: #e6e6e6;      /* structural gray, not a brand color */
+      --ccla-surface: #fafafa;     /* structural gray, not a brand color */
+      --ccla-accent: #111111;      /* fallback only — replace with fragrance family's color_palette.primary */
+      --ccla-accent-text: #ffffff; /* text/icon color on top of --ccla-accent */
+    }
+    body {
+      font-family: 'Manrope', Arial, Helvetica, sans-serif;
+      color: var(--ccla-text);
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .post-wrapper { max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+    h1 { font-size: 32px; line-height: 1.25; font-weight: 700; margin: 0 0 16px; color: var(--ccla-text); }
+    .post-deck { font-size: 19px; line-height: 1.55; color: var(--ccla-text-soft); margin-bottom: 10px; font-style: italic; }
+    /* NEW — freshness stamp. Small and unobtrusive, editorial not journalistic:
+       this is NOT the "dateline/byline" the original spec correctly excludes
+       (that's an advertorial convention). This is a quiet freshness signal
+       only, styled to disappear into the deck, not call attention to itself. */
+    .post-updated { font-size: 12px; color: var(--ccla-muted); margin-bottom: 28px; }
+    .post-hero { width: 100%; height: auto; border-radius: 10px; display: block; margin-bottom: 10px; }
+    .post-caption { font-size: 12px; color: var(--ccla-muted); margin-bottom: 28px; text-align: center; }
+    p { font-size: 17px; line-height: 1.72; margin: 0 0 20px; color: #222; }
+    h2 { font-size: 22px; font-weight: 700; margin: 36px 0 14px; color: var(--ccla-text); }
+    strong { color: var(--ccla-text); }
+    .post-divider { border: none; border-top: 1px solid var(--ccla-border); margin: 32px 0; }
+    figure { margin: 28px 0; }
+    figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+    figcaption { font-size: 12px; color: var(--ccla-muted); margin-top: 8px; text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    table th, table td { border: 1px solid var(--ccla-border); padding: 10px 14px; text-align: left; }
+    table th { background: var(--ccla-surface); font-weight: 700; color: var(--ccla-text); }
+    .product-card {
+      border: 1px solid var(--ccla-border); border-radius: 14px; padding: 18px; margin: 28px 0;
+      display: flex; gap: 18px; align-items: center; background: var(--ccla-surface);
+    }
+    .product-card a.img-link { flex: 0 0 110px; }
+    .product-card a.img-link img { width: 110px; height: 110px; object-fit: cover; border-radius: 10px; display: block; }
+    .product-card .details { flex: 1; min-width: 0; }
+    .product-card .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ccla-muted); margin-bottom: 4px; }
+    .product-card .name { font-size: 17px; font-weight: 700; color: var(--ccla-text); text-decoration: none; display: block; margin-bottom: 5px; }
+    .product-card .desc { font-size: 13px; color: #555; margin: 0 0 12px; line-height: 1.5; }
+    .product-card .price-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .product-card .price { font-size: 16px; font-weight: 700; color: var(--ccla-text); }
+    .product-card .btn {
+      background: var(--ccla-accent); color: var(--ccla-accent-text); text-decoration: none;
+      font-weight: 600; font-size: 13px; padding: 9px 18px; border-radius: 999px;
+    }
+    .cta-block { border: 1px solid var(--ccla-border); border-radius: 16px; padding: 32px 24px; margin: 40px 0; background: #fff; text-align: center; }
+    .cta-block h2 { margin: 0 0 8px; font-size: 24px; color: var(--ccla-text); }
+    .cta-block p { margin: 0 0 22px; font-size: 15px; color: #555; }
+    .cta-block .btn-main {
+      background: var(--ccla-accent); color: var(--ccla-accent-text); text-decoration: none;
+      font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 999px; display: inline-block;
+    }
+    .cta-block .guarantee { font-size: 12px; color: #aaa; margin: 14px 0 0; }
+    .faq-block h3 { font-size: 17px; margin: 24px 0 8px; color: var(--ccla-text); }
+    /* Key Takeaways: a second, more structured extraction point than the
+       prose deck — bullets are easier for AI (and skimming humans) to lift. */
+    .key-takeaways {
+      border: 1px solid var(--ccla-border); border-radius: 12px; background: var(--ccla-surface);
+      padding: 18px 22px; margin: 0 0 28px;
+    }
+    .key-takeaways .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ccla-muted); margin-bottom: 8px; }
+    .key-takeaways ul { margin: 0; padding-left: 20px; }
+    .key-takeaways li { font-size: 15px; line-height: 1.6; margin-bottom: 6px; color: var(--ccla-text); }
+    /* Responsive video embed wrapper (16:9), CCLA's own video content only */
+    .video-embed { position: relative; width: 100%; padding-top: 56.25%; margin: 28px 0; border-radius: 10px; overflow: hidden; }
+    .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    @media (max-width: 560px) {
+      h1 { font-size: 24px; }
+      .post-deck { font-size: 16px; }
+      .product-card { flex-direction: column; align-items: flex-start; }
+      .product-card a.img-link img { width: 100%; height: 180px; }
+      .product-card a.img-link { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="post-wrapper">
+
+  <h1>{{HEADLINE}}</h1>
+
+  <!-- Answer-first / BLUF: state the answer before any context. This doubles
+       as the snippet AI engines lift for a direct citation. -->
+  <p class="post-deck">{{ANSWER_FIRST_DECK}}</p>
+
+  <!-- NEW — visible freshness signal, human-readable date, e.g. "Updated July 2026" -->
+  <p class="post-updated">Updated {{LAST_UPDATED_DISPLAY_DATE}}</p>
+
+  <!-- NEW — Key Takeaways: 3-5 bullets, distinct from the prose deck above. -->
+  <div class="key-takeaways">
+    <div class="eyebrow">Key takeaways</div>
+    <ul>
+      <li>{{KEY_TAKEAWAY_1}}</li>
+      <li>{{KEY_TAKEAWAY_2}}</li>
+      <li>{{KEY_TAKEAWAY_3}}</li>
+    </ul>
+  </div>
+
+  <img class="post-hero" src="{{HERO_IMAGE_SRC}}" alt="{{HERO_IMAGE_ALT}}" loading="eager" />
+  <p class="post-caption">{{HERO_CAPTION}}</p>
+
+  <hr class="post-divider" />
+
+  <p>{{INTRO_PARAGRAPH}}</p>
+
+  <!-- Repeat this H2 + body pattern per section. Each section must be
+       understandable in isolation — AI chunks content at heading boundaries
+       and may retrieve only one section, never the whole page. Link
+       naturally to 2-4 relevant existing CCLA pages (other posts, product/
+       collection pages) across these sections — descriptive anchor text,
+       never forced. -->
+  <h2>{{H2_QUESTION_1}}</h2>
+  <p>{{SECTION_1_BODY}}</p>
+
+  <figure>
+    <img src="{{EDITORIAL_IMAGE_SRC}}" alt="{{EDITORIAL_IMAGE_ALT}}" loading="lazy" />
+    <figcaption>{{EDITORIAL_CAPTION}}</figcaption>
+  </figure>
+
+  <!-- NEW — optional relevant video embed, longer posts only (Ultimate Guide,
+       longer Comparisons). CCLA's own video content only; omit entirely if
+       nothing genuinely relevant exists. -->
+  <div class="video-embed">
+    <iframe src="{{VIDEO_EMBED_URL}}" title="{{VIDEO_TITLE}}" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <!-- Product card — repeat 2-4 times, only where content calls for it.
+       Never a different product's photo, never invented price/URL. -->
+  <div class="product-card">
+    <a href="{{PRODUCT_URL}}" class="img-link">
+      <img src="{{PRODUCT_IMAGE_SRC}}" alt="{{PRODUCT_IMAGE_ALT}}" />
+    </a>
+    <div class="details">
+      <div class="eyebrow">Custom Candles L.A.</div>
+      <a href="{{PRODUCT_URL}}" class="name">{{PRODUCT_NAME}}</a>
+      <p class="desc">{{PRODUCT_ONE_LINER}}</p>
+      <div class="price-row">
+        <span class="price">{{PRICE}}</span>
+        <a href="{{PRODUCT_URL}}" class="btn">Shop Now &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>{{H2_QUESTION_2}}</h2>
+  <p>{{SECTION_2_BODY}}</p>
+
+  <!-- Insert a real <table> here ONLY for Comparison / best-X-for-Y post
+       styles, using the table styles already defined above. Omit entirely
+       otherwise rather than forcing one in. -->
+
+  <!-- Mid-page CTA — optional, longer posts only (Ultimate Guide, Comparison) -->
+  <div class="cta-block">
+    <h2>{{MID_CTA_HEADLINE}}</h2>
+    <p>{{MID_CTA_SUBHEAD}}</p>
+    <a href="{{PRODUCT_OR_COLLECTION_URL}}" class="btn-main">{{CTA_LABEL}} &rarr;</a>
+    <p class="guarantee">{{GUARANTEE_OR_PROOF_LINE}}</p>
+  </div>
+
+  <!-- FAQ block: 3-6 real People Also Ask-style questions. Must exactly
+       match the FAQPage JSON-LD in <head> above. -->
+  <div class="faq-block">
+    <h2>Frequently asked questions</h2>
+    <h3>{{FAQ_Q1}}</h3>
+    <p>{{FAQ_A1}}</p>
+    <h3>{{FAQ_Q2}}</h3>
+    <p>{{FAQ_A2}}</p>
+  </div>
+
+  <div class="cta-block">
+    <h2>{{CLOSING_CTA_HEADLINE}}</h2>
+    <p>{{CLOSING_CTA_SUBHEAD}}</p>
+    <a href="{{PRODUCT_OR_COLLECTION_URL}}" class="btn-main">{{CTA_LABEL}} &rarr;</a>
+    <p class="guarantee">{{GUARANTEE_OR_PROOF_LINE}}</p>
+  </div>
+
+</div>
+</body>
+</html>

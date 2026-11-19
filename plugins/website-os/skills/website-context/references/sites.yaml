@@ -1,0 +1,58 @@
+# Website OS site registry. The one place per-brand site facts live.
+# Verified against the live storefronts and sitemaps on 2026-11-18. If a live read
+# disagrees with a value here, trust the live read for that run and tell Jackie
+# which value to correct in the plugin repo.
+
+brands:
+  bath-promotions:
+    display_name: "Bath Promotions"
+    channel: distributor-reseller        # cross-brand guard: who BP content speaks to
+    site_url: "https://bathpromotions.com"
+    shopify_domain: "cd87jm-xr.myshopify.com"
+    blog:
+      handle: "made-in-la"
+      title: "Made in LA: Bath Promotions Blog"
+      id: "gid://shopify/Blog/95449743539"
+    author_name: "Julie Warnock"         # byline: "By Julie Warnock, Founder"
+    conversion_pages:
+      quote: "/pages/bulk-order-form"
+      ordering: "/pages/ordering"
+      contact: "/pages/contact-us"
+    gsc:
+      url_prefix_property: "https://bathpromotions.com/"
+      domain_property: "sc-domain:bathpromotions.com"
+    ga4_owner_account: "julie@bathpromotions.com"
+    drive_folders:
+      assets: "1BGPh6kQw9CnVJWkXe519n5eN6CARcv0s"      # Bath Promotions - Assets
+      campaigns: "1-ybfP_Hc66huFchv68uwXUwkxeYTv5O1"   # Bath Promotions - Campaigns
+    imagery: real-photography-only       # zero AI imagery, ever
+    product_images_show_logo: false      # BP listings: color + name only
+
+  custom-candles-la:
+    display_name: "Custom Candles LA"
+    channel: direct-buyer                # hospitality, luxury and gifting buyers
+    site_url: "https://customcandlesla.com"
+    shopify_domain: "custom-candles-la.myshopify.com"
+    blog:
+      handle: "in-the-news"
+      title: "In the News"
+      id: ""                             # read once with the Shopify connector (blogs query) and fill
+    author_name: "Julie Warnock"
+    conversion_pages:
+      quote: "/pages/contact"
+      fragrances: "/pages/our-fragrances"
+      samples: "/collections/samples"
+    gsc:
+      url_prefix_property: "https://customcandlesla.com/"
+      domain_property: "sc-domain:customcandlesla.com"
+    ga4_owner_account: "customcandleslajordan@gmail.com"
+    drive_folders:
+      assets: "1nUwK5yaEXpq1yq-xAPu8b0zzkYMfFjbB"      # Custom Candles LA - Assets (was empty Jul 2026)
+      campaigns: "1D97EBa6vVQKCUdT9D-Tfoo_eS9HDI6YM"   # Custom Candles LA - Campaigns
+    imagery: real-photography-preferred  # real photos for blog and product cards
+    product_images_show_logo: true
+
+shared:
+  drive_parent_folder: "1HchdO9D8FwSoOvVCFZTs4iayYIofDK__"   # Marketing OS parent, owner julie@bathpromotions.com
+  ai_crawlers_to_allow: [GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended]
+  autonomous_blog_worker: "website-os-blog-automation-v2 (Cloudflare Worker): Sunday research, Mon/Wed/Fri posts, Saturday performance feedback, for both brands"

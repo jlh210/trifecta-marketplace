@@ -26,6 +26,8 @@ One plugin, two layers:
 | `campaign-autopilot` | Sunday: builds one campaign per brand; Monday: approval package in Claude; on approval, schedules in Metricool | "show me this week's campaigns", "approve all" |
 | `marketing-routines-setup` | Connector check, Ledger, three scheduled tasks | "set up the marketing routines" |
 
+Website SEO, AEO, blog posts and Shopify pages for bathpromotions.com and customcandlesla.com live in the separate **Website OS** plugin in this marketplace (`/seo setup`, `/seo doctor`, `/seo audit`).
+
 Agents: `brand-reviewer` (voice and claims gate), `marketing-researcher` (cited market signals).
 
 ## Connectors

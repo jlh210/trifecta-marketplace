@@ -26,6 +26,7 @@ The Marketing OS runs a brand's marketing from inside Claude: research ideas, bu
 | A specific business or performance question | `business-analyzer` |
 | Weekly campaigns for all brands, approval package, "approve" / "change post 3" replies | `campaign-autopilot` |
 | Set up the weekly routines and the Marketing Ledger | `marketing-routines-setup` |
+| Website SEO or AEO for bathpromotions.com or customcandlesla.com, "/seo audit", blog posts on the websites, Shopify pages | the **Website OS** plugin (`website-os` router; `/seo setup`, `/seo doctor`, `/seo audit`) |
 
 When a request spans several (for example "plan and schedule next week for CCLA"), run them in flow order: ideation, brief, builder (which calls instagram-seo, newsletter-builder, social-scheduler).
 

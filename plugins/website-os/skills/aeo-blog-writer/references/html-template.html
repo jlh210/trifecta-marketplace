@@ -1,0 +1,300 @@
+<!--
+  Generic AEO blog post template — brand-agnostic.
+
+  Fill every {{PLACEHOLDER}} programmatically from real business data, never
+  by inventing it. Resolve --brand-* CSS variables from whatever brand/style
+  config the business already has; if none exists, ask rather than guessing
+  colors, fonts, or voice.
+
+  Do not hand-write structure changes per post — the template's skeleton
+  (schema, meta tags, section order) stays constant; only the copy fields
+  and brand variables change per post.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============================================================
+       CMS / PLATFORM SEO FIELDS (copy into your CMS's SEO settings)
+       Page title field:      {{PAGE_TITLE}}
+       SEO title tag (~55ch): {{SEO_TITLE}}
+       Meta description:      {{META_DESCRIPTION}}
+       URL slug (suggested):  {{URL_SLUG}}
+       ============================================================ -->
+  <title>{{SEO_TITLE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION}}" />
+  <link rel="canonical" href="{{CANONICAL_URL}}" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{SEO_TITLE}}" />
+  <meta property="og:description" content="{{META_DESCRIPTION}}" />
+  <meta property="og:image" content="{{HERO_IMAGE_SRC}}" />
+  <meta property="og:url" content="{{CANONICAL_URL}}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{SEO_TITLE}}" />
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}" />
+  <meta name="twitter:image" content="{{HERO_IMAGE_SRC}}" />
+
+  <!-- Article schema. dateModified is a real freshness signal — update it
+       only when the post is substantively edited, never blindly.
+       If the business supplies a real named author with credentials (optional,
+       business-dependent — see SKILL.md Section 6), replace the "author" block
+       below with:
+         "author": { "@type": "Person", "name": "{{AUTHOR_NAME}}", "url": "{{AUTHOR_BIO_URL}}" },
+       JSON-LD does not support comments, so this note must stay outside the
+       <script> block — never place a comment inside the JSON itself. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{HEADLINE}}",
+    "description": "{{META_DESCRIPTION}}",
+    "image": "{{HERO_IMAGE_SRC}}",
+    "datePublished": "{{DATE_PUBLISHED_ISO}}",
+    "dateModified": "{{DATE_MODIFIED_ISO}}",
+    "author": {
+      "@type": "Organization",
+      "name": "{{BUSINESS_NAME}}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{BUSINESS_NAME}}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{BRAND_LOGO_URL}}"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{CANONICAL_URL}}"
+    }
+  }
+  </script>
+
+  <!-- FAQPage schema. Must mirror the visible FAQ block below exactly —
+       same questions, same answers, word for word. Add/remove Question
+       blocks to match however many FAQ items the post actually has (3-6). -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "{{FAQ_Q1}}",
+        "acceptedAnswer": { "@type": "Answer", "text": "{{FAQ_A1}}" }
+      },
+      {
+        "@type": "Question",
+        "name": "{{FAQ_Q2}}",
+        "acceptedAnswer": { "@type": "Answer", "text": "{{FAQ_A2}}" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Optional: Organization schema, only if not already present site-wide
+       (check the site's global template/head before duplicating this). -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{BUSINESS_NAME}}",
+    "url": "{{BUSINESS_URL}}",
+    "logo": "{{BRAND_LOGO_URL}}"
+  }
+  </script>
+
+  <style>
+    /* ============================================================
+       BRAND VARIABLES — resolve from the business's real brand/style
+       config at generation time. Never leave these on the fallback
+       values below in a published post; they exist only so this file
+       renders sensibly before brand data is wired in.
+       ============================================================ */
+    :root {
+      --brand-font: "Arial", Helvetica, sans-serif;   /* replace with real brand font */
+      --brand-text: #1a1a1a;        /* primary heading/body text color */
+      --brand-text-soft: #444;      /* deck/secondary text */
+      --brand-muted: #8a8a8a;       /* structural gray: captions, fine print — not a brand color */
+      --brand-border: #e6e6e6;      /* structural gray */
+      --brand-surface: #fafafa;     /* structural gray: card backgrounds */
+      --brand-accent: #111111;      /* replace with real brand accent/primary color */
+      --brand-accent-text: #ffffff; /* text/icon color on top of --brand-accent */
+    }
+    body {
+      font-family: var(--brand-font);
+      color: var(--brand-text);
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .post-wrapper { max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+    h1 { font-size: 32px; line-height: 1.25; font-weight: 700; margin: 0 0 16px; color: var(--brand-text); }
+    .post-deck { font-size: 19px; line-height: 1.55; color: var(--brand-text-soft); margin-bottom: 10px; }
+    /* Freshness stamp: quiet and small, not a journalistic byline/dateline. */
+    .post-updated { font-size: 12px; color: var(--brand-muted); margin-bottom: 28px; }
+    .post-hero { width: 100%; height: auto; border-radius: 10px; display: block; margin-bottom: 10px; }
+    .post-caption { font-size: 12px; color: var(--brand-muted); margin-bottom: 28px; text-align: center; }
+    p { font-size: 17px; line-height: 1.72; margin: 0 0 20px; color: #222; }
+    h2 { font-size: 22px; font-weight: 700; margin: 36px 0 14px; color: var(--brand-text); }
+    strong { color: var(--brand-text); }
+    .post-divider { border: none; border-top: 1px solid var(--brand-border); margin: 32px 0; }
+    figure { margin: 28px 0; }
+    figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+    figcaption { font-size: 12px; color: var(--brand-muted); margin-top: 8px; text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    table th, table td { border: 1px solid var(--brand-border); padding: 10px 14px; text-align: left; }
+    table th { background: var(--brand-surface); font-weight: 700; color: var(--brand-text); }
+    /* "Offer card" = a product or a service, whichever the business sells */
+    .offer-card {
+      border: 1px solid var(--brand-border); border-radius: 14px; padding: 18px; margin: 28px 0;
+      display: flex; gap: 18px; align-items: center; background: var(--brand-surface);
+    }
+    .offer-card a.img-link { flex: 0 0 110px; }
+    .offer-card a.img-link img { width: 110px; height: 110px; object-fit: cover; border-radius: 10px; display: block; }
+    .offer-card .details { flex: 1; min-width: 0; }
+    .offer-card .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-muted); margin-bottom: 4px; }
+    .offer-card .name { font-size: 17px; font-weight: 700; color: var(--brand-text); text-decoration: none; display: block; margin-bottom: 5px; }
+    .offer-card .desc { font-size: 13px; color: #555; margin: 0 0 12px; line-height: 1.5; }
+    .offer-card .price-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .offer-card .price { font-size: 16px; font-weight: 700; color: var(--brand-text); }
+    .offer-card .btn {
+      background: var(--brand-accent); color: var(--brand-accent-text); text-decoration: none;
+      font-weight: 600; font-size: 13px; padding: 9px 18px; border-radius: 999px;
+    }
+    .cta-block { border: 1px solid var(--brand-border); border-radius: 16px; padding: 32px 24px; margin: 40px 0; background: #fff; text-align: center; }
+    .cta-block h2 { margin: 0 0 8px; font-size: 24px; color: var(--brand-text); }
+    .cta-block p { margin: 0 0 22px; font-size: 15px; color: #555; }
+    .cta-block .btn-main {
+      background: var(--brand-accent); color: var(--brand-accent-text); text-decoration: none;
+      font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 999px; display: inline-block;
+    }
+    .cta-block .proof-line { font-size: 12px; color: #aaa; margin: 14px 0 0; }
+    .faq-block h3 { font-size: 17px; margin: 24px 0 8px; color: var(--brand-text); }
+    /* Key Takeaways: a second, more structured extraction point than the
+       prose deck — bullets are easier for AI (and skimming humans) to lift. */
+    .key-takeaways {
+      border: 1px solid var(--brand-border); border-radius: 12px; background: var(--brand-surface);
+      padding: 18px 22px; margin: 0 0 28px;
+    }
+    .key-takeaways .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-muted); margin-bottom: 8px; }
+    .key-takeaways ul { margin: 0; padding-left: 20px; }
+    .key-takeaways li { font-size: 15px; line-height: 1.6; margin-bottom: 6px; color: var(--brand-text); }
+    /* Responsive video embed wrapper (16:9) */
+    .video-embed { position: relative; width: 100%; padding-top: 56.25%; margin: 28px 0; border-radius: 10px; overflow: hidden; }
+    .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    @media (max-width: 560px) {
+      h1 { font-size: 24px; }
+      .post-deck { font-size: 16px; }
+      .offer-card { flex-direction: column; align-items: flex-start; }
+      .offer-card a.img-link img { width: 100%; height: 180px; }
+      .offer-card a.img-link { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="post-wrapper">
+
+  <h1>{{HEADLINE}}</h1>
+
+  <!-- Answer-first / BLUF: the direct answer, before any context. This is
+       the text an AI engine is most likely to lift as a citation. -->
+  <p class="post-deck">{{ANSWER_FIRST_DECK}}</p>
+
+  <p class="post-updated">Updated {{LAST_UPDATED_DISPLAY_DATE}}</p>
+
+  <!-- Key Takeaways: 3-5 bullets, distinct from the prose deck above. -->
+  <div class="key-takeaways">
+    <div class="eyebrow">Key takeaways</div>
+    <ul>
+      <li>{{KEY_TAKEAWAY_1}}</li>
+      <li>{{KEY_TAKEAWAY_2}}</li>
+      <li>{{KEY_TAKEAWAY_3}}</li>
+    </ul>
+  </div>
+
+  <img class="post-hero" src="{{HERO_IMAGE_SRC}}" alt="{{HERO_IMAGE_ALT}}" loading="eager" />
+  <p class="post-caption">{{HERO_CAPTION}}</p>
+
+  <hr class="post-divider" />
+
+  <p>{{INTRO_PARAGRAPH}}</p>
+
+  <!-- Repeat this H2 + body pattern per section (3-5 total depending on
+       post style/length). Each section must stand on its own — AI engines
+       chunk by heading and may retrieve only one section, with no
+       surrounding context. Link naturally to 2-4 relevant existing pages
+       (other posts, product/service pages) across these sections, pulled
+       from the real sitemap — descriptive anchor text, never "click here,"
+       never forced where there's nothing relevant to link to. -->
+  <h2>{{H2_QUESTION_1}}</h2>
+  <p>{{SECTION_1_BODY}}</p>
+
+  <figure>
+    <img src="{{EDITORIAL_IMAGE_SRC}}" alt="{{EDITORIAL_IMAGE_ALT}}" loading="lazy" />
+    <figcaption>{{EDITORIAL_CAPTION}}</figcaption>
+  </figure>
+
+  <!-- Optional relevant video embed, longer posts only. Prefer the business's
+       own YouTube content; omit entirely if nothing genuinely relevant exists. -->
+  <div class="video-embed">
+    <iframe src="{{VIDEO_EMBED_URL}}" title="{{VIDEO_TITLE}}" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <!-- Offer card — repeat only where the content genuinely calls for it.
+       Never fabricate a product/service name, price, or URL. -->
+  <div class="offer-card">
+    <a href="{{OFFER_URL}}" class="img-link">
+      <img src="{{OFFER_IMAGE_SRC}}" alt="{{OFFER_IMAGE_ALT}}" />
+    </a>
+    <div class="details">
+      <div class="eyebrow">{{BUSINESS_NAME}}</div>
+      <a href="{{OFFER_URL}}" class="name">{{OFFER_NAME}}</a>
+      <p class="desc">{{OFFER_ONE_LINER}}</p>
+      <div class="price-row">
+        <span class="price">{{PRICE}}</span>
+        <a href="{{OFFER_URL}}" class="btn">{{OFFER_CTA_LABEL}} &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>{{H2_QUESTION_2}}</h2>
+  <p>{{SECTION_2_BODY}}</p>
+
+  <!-- Insert a real <table> here ONLY for comparison / "best X for Y" post
+       styles, using the table styles already defined above. Omit entirely
+       for post styles that don't call for one. -->
+
+  <!-- Mid-page CTA — optional, for longer posts (ultimate guides, longer
+       comparisons) only. -->
+  <div class="cta-block">
+    <h2>{{MID_CTA_HEADLINE}}</h2>
+    <p>{{MID_CTA_SUBHEAD}}</p>
+    <a href="{{OFFER_OR_COLLECTION_URL}}" class="btn-main">{{CTA_LABEL}} &rarr;</a>
+    <p class="proof-line">{{PROOF_OR_GUARANTEE_LINE}}</p>
+  </div>
+
+  <!-- FAQ block: 3-6 real, search-derived questions. Must exactly match
+       the FAQPage JSON-LD in <head> above — same wording. -->
+  <div class="faq-block">
+    <h2>Frequently asked questions</h2>
+    <h3>{{FAQ_Q1}}</h3>
+    <p>{{FAQ_A1}}</p>
+    <h3>{{FAQ_Q2}}</h3>
+    <p>{{FAQ_A2}}</p>
+  </div>
+
+  <div class="cta-block">
+    <h2>{{CLOSING_CTA_HEADLINE}}</h2>
+    <p>{{CLOSING_CTA_SUBHEAD}}</p>
+    <a href="{{OFFER_OR_COLLECTION_URL}}" class="btn-main">{{CTA_LABEL}} &rarr;</a>
+    <p class="proof-line">{{PROOF_OR_GUARANTEE_LINE}}</p>
+  </div>
+
+</div>
+</body>
+</html>

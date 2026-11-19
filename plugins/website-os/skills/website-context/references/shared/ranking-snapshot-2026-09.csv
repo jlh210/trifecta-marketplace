@@ -1,0 +1,14 @@
+brand,domain,semrush_rank,organic_keywords,organic_traffic_est_mo,organic_traffic_cost_est_usd,positions_1_3,positions_4_10,positions_11_20,positions_21_30,positions_31_40,positions_41_50,provider,database,retrieval_date,prior_pull_date,prior_semrush_rank,prior_organic_keywords,prior_organic_traffic_est_mo
+bathpromotions,bathpromotions.com,3755269,180,104,259,1,10,22,35,49,23,semrush,us,2026-09-07,2026-08-06,3790374,179,98
+customcandlesla,customcandlesla.com,1375175,147,723,550,13,23,41,31,7,9,semrush,us,2026-09-07,,not previously pulled in any project document,,
+
+# Keyword-level position deltas (Semrush only - GSC not compared here, see reconciliation report note on separate measurement systems)
+brand,keyword,provider,database,retrieval_date,current_position,prior_position,prior_pull_date,delta,notes
+bathpromotions,prayer candles,semrush,us,2026-09-07,30,25-28 (range given, not exact),2026-08-16,worse (approx -3 to -6),Range-to-exact comparison is approximate by definition - prior value was reported as a range
+bathpromotions,prayer candle,semrush,us,2026-09-07,18,23,2026-08-16,better (+5),
+bathpromotions,custom prayer candles,semrush,us,2026-09-07,10,10,2026-08-16,no change,
+bathpromotions,personalized prayer candles,semrush,us,2026-09-07,8,8,2026-08-16,no change,
+bathpromotions,catholic prayer candles,semrush,us,2026-09-07,39-40,39-40,2026-08-16,no change,Two URLs indexed for this term
+bathpromotions,branded candle,semrush,us,2026-09-07,55,45,2026-08-06,worse (-10),
+bathpromotions,custom logo candles,semrush,us,2026-09-07,not confirmed in top 100 by traffic; not in top 10 live SERP,61,2026-08-06,unknown - insufficient data for exact delta,Labeled honestly as unavailable rather than guessed - see notes in file 02
+customcandlesla,(all rows),semrush,us,2026-09-07,see file 02,not applicable,not applicable,no prior pull exists,No prior CCLA ranking snapshot exists in any project document - this is CCLA's first
