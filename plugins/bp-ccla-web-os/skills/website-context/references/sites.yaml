@@ -22,7 +22,7 @@ brands:
       url_prefix_property: "https://bathpromotions.com/"
       domain_property: "sc-domain:bathpromotions.com"
     ga4:
-      property_id: ""                    # read once with the GA4 connector at /seo setup and fill
+      property_id: "548169330"           # bathpromotions.com (GA4 account "Bath Promotions / Custom Candles LA")
       owner_account: "julie@bathpromotions.com"
     drive_folders:
       assets: "1BGPh6kQw9CnVJWkXe519n5eN6CARcv0s"      # Bath Promotions - Assets
@@ -38,7 +38,7 @@ brands:
     blog:
       handle: "in-the-news"
       title: "In the News"
-      id: ""                             # read once with the Shopify connector (blogs query) and fill
+      id: "gid://shopify/Blog/96855163176"
     author_name: "Julie Warnock"
     conversion_pages:
       quote: "/pages/contact"
@@ -48,8 +48,8 @@ brands:
       url_prefix_property: "https://customcandlesla.com/"
       domain_property: "sc-domain:customcandlesla.com"
     ga4:
-      property_id: ""                    # read once with the GA4 connector at /seo setup and fill
-      owner_account: "customcandleslajordan@gmail.com"
+      property_id: "548153499"           # Custom Candles LA (same GA4 account)
+      owner_account: "julie@bathpromotions.com"   # julie@ administers both properties
     drive_folders:
       assets: "1nUwK5yaEXpq1yq-xAPu8b0zzkYMfFjbB"      # Custom Candles LA - Assets (was empty Jul 2026)
       campaigns: "1D97EBa6vVQKCUdT9D-Tfoo_eS9HDI6YM"   # Custom Candles LA - Campaigns

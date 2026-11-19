@@ -4,13 +4,13 @@ All SEO and performance data in this plugin comes from two Google sources. No th
 
 | Source | Connector | Answers | Doesn't answer |
 |---|---|---|---|
-| Google Search Console | Search Console connector | Per-query and per-page clicks, impressions, CTR, average position; URL inspection (indexed or not, last crawl, canonical); sitemaps | Demand for terms the site doesn't appear for; competitors' rankings |
-| Google Analytics 4 | GA4 connector | Organic sessions, engaged sessions, engagement time and key events (conversions) by landing page; organic share of traffic; conversion paths | Rankings or queries |
+| Google Search Console | Search Console connector (`bp-ccla-google-data`: `gsc_search_analytics`, `gsc_inspect_url`, `gsc_sitemaps`) | Per-query and per-page clicks, impressions, CTR, average position; URL inspection (indexed or not, last crawl, canonical); sitemaps | Demand for terms the site doesn't appear for; competitors' rankings |
+| Google Analytics 4 | GA4 connector (`bp-ccla-google-data`: `ga4_run_report`; `list_properties` shows both brands) | Organic sessions, engaged sessions, engagement time and key events (conversions) by landing page; organic share of traffic; conversion paths | Rankings or queries |
 
 What the other tools are still used for (not as data sources):
 - **Shopify connector:** reading and writing site content (articles, pages, products, SEO fields, alt text, theme). Not used for analytics.
-- **The site itself** (the bundled `site_audit.py` crawler, or WebFetch): titles, meta, canonicals, H1s, JSON-LD, alt text, links, robots.txt, llms.txt, sitemaps. This is a check of the pages, not a data provider.
-- **PageSpeed Insights** (Google's keyless page test, best effort): the mobile speed category of the weekly check. Often rate-limited; then "not measured".
+- **The site itself** (the bundled `site_audit.py` crawler; when the workspace can't reach the sites, the connector's `site_crawl_files`, `site_page_audit` and `site_check_urls`, which fetch from Cloudflare; WebFetch only as a last resort): titles, meta, canonicals, H1s, JSON-LD, alt text, links, robots.txt, llms.txt, sitemaps. This is a check of the pages, not a data provider.
+- **PageSpeed Insights** (the script's keyless call, or the connector's `pagespeed` tool, which also returns real-user Core Web Vitals): the mobile speed category of the weekly check. If both are rate-limited, "not measured".
 
 ## Rules
 - **Demand = Search Console impressions.** There are no volume or difficulty numbers. A keyword's demand is its impressions over the last 28 days (and 90 days for slow terms). A topic the site has never appeared for has unknown demand; say so rather than guessing.
