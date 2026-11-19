@@ -1,0 +1,307 @@
+<!--
+  Bath Promotions canonical blog post template — B2B/distributor-facing.
+
+  Adapted from the generic aeo-blog-writer base template, with:
+  - Bath Promotions' real brand colors/fonts (from brand.yaml)
+  - "Capability cards" instead of consumer product cards — MOQ / decoration
+    method / lead time, "Request Pricing" style CTA, never a fixed retail
+    price (no documented pricing posture exists for this brand — see
+    reference/brand-intelligence-snapshot.md Section 9)
+  - Optional named-author schema (Person), since unlike CCLA this brand can
+    use a credentialed author (e.g. a production lead) for "How It's Made"
+    content as an E-E-A-T signal
+
+  IMAGES: Bath Promotions uses ZERO AI-generated images or video, by design —
+  stricter than "prefer real photos." Every image slot below must be filled
+  from real photography sourced from the campaign's Google Drive /finalized
+  subfolder (GOOGLE_DRIVE_BP_CAMPAIGNS) or the brand asset library
+  (GOOGLE_DRIVE_BP_ASSETS). If no suitable real photo exists, leave the slot
+  flagged as needing one — never substitute AI-generated or stock imagery.
+  Any product image shown must display only the candle vessel (no packaging
+  box), and BP product imagery shows color + name only, no brand logo
+  (unlike CCLA's, which does show the logo — a deliberate distinction).
+
+  Fill every {{PLACEHOLDER}} from real, current brand/production data. Never
+  invent a decoration method, MOQ, lead time, capability, competitor, or price.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============================================================
+       CMS / PLATFORM SEO FIELDS
+       Page title field:      {{PAGE_TITLE}}
+       SEO title tag (~55ch): {{SEO_TITLE}}
+       Meta description:      {{META_DESCRIPTION}}
+       URL slug (suggested):  {{URL_SLUG}}
+       ============================================================ -->
+  <title>{{SEO_TITLE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION}}" />
+  <link rel="canonical" href="{{CANONICAL_URL}}" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{SEO_TITLE}}" />
+  <meta property="og:description" content="{{META_DESCRIPTION}}" />
+  <meta property="og:image" content="{{HERO_IMAGE_SRC}}" />
+  <meta property="og:url" content="{{CANONICAL_URL}}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{SEO_TITLE}}" />
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}" />
+  <meta name="twitter:image" content="{{HERO_IMAGE_SRC}}" />
+
+  <!-- Article schema. dateModified must reflect a real edit, not a blind bump.
+       Default author is the Organization. If a real named production lead or
+       subject-matter expert is attributed (optional — see SKILL.md Section 4),
+       replace the "author" block below with:
+         "author": { "@type": "Person", "name": "{{AUTHOR_NAME}}", "jobTitle": "{{AUTHOR_TITLE}}" },
+       JSON-LD does not support comments, so this note stays outside the
+       <script> block. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{HEADLINE}}",
+    "description": "{{META_DESCRIPTION}}",
+    "image": "{{HERO_IMAGE_SRC}}",
+    "datePublished": "{{DATE_PUBLISHED_ISO}}",
+    "dateModified": "{{DATE_MODIFIED_ISO}}",
+    "author": {
+      "@type": "Organization",
+      "name": "Bath Promotions"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Bath Promotions",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{BRAND_LOGO_URL}}"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{CANONICAL_URL}}"
+    }
+  }
+  </script>
+
+  <!-- FAQPage schema. Must mirror the visible FAQ block exactly. Add/remove
+       Question objects to match however many FAQ items the post has (3-6). -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "{{FAQ_Q1}}",
+        "acceptedAnswer": { "@type": "Answer", "text": "{{FAQ_A1}}" }
+      },
+      {
+        "@type": "Question",
+        "name": "{{FAQ_Q2}}",
+        "acceptedAnswer": { "@type": "Answer", "text": "{{FAQ_A2}}" }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ============================================================
+       BATH PROMOTIONS BRAND VARIABLES — from brand.yaml. Never leave
+       these on generic fallback values in a published post.
+       ============================================================ */
+    :root {
+      --bp-font-display: "Bricolage Grotesque", Arial, Helvetica, sans-serif;  /* headlines */
+      --bp-font-body: "Figtree", Arial, Helvetica, sans-serif;                /* body copy */
+      --bp-text: #3B4A57;           /* brand.yaml primary_color */
+      --bp-text-soft: #4a5a68;
+      --bp-muted: #8a97a1;          /* structural gray — not a brand color */
+      --bp-border: #e2e8ec;         /* structural gray */
+      --bp-surface: #F5F5F5;        /* Off-White — background secondary */
+      --bp-accent: #196D9A;         /* Deep Navy Blue — primary CTA/text accent */
+      --bp-accent-secondary: #27AAE1; /* Bright Sky Blue — accent highlights ONLY, sparingly */
+      --bp-accent-light: #E3F2F7;   /* Pale Ice Blue — backgrounds only, never text */
+      --bp-accent-text: #ffffff;
+    }
+    body {
+      font-family: var(--bp-font-body);
+      color: var(--bp-text);
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .post-wrapper { max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+    h1 { font-family: var(--bp-font-display); font-size: 32px; line-height: 1.2; font-weight: 700; margin: 0 0 16px; color: var(--bp-text); }
+    .post-deck { font-size: 19px; line-height: 1.55; color: var(--bp-text-soft); margin-bottom: 10px; }
+    .post-updated { font-size: 12px; color: var(--bp-muted); margin-bottom: 28px; }
+    .post-hero { width: 100%; height: auto; border-radius: 10px; display: block; margin-bottom: 10px; }
+    .post-caption { font-size: 12px; color: var(--bp-muted); margin-bottom: 28px; text-align: center; }
+    p { font-size: 17px; line-height: 1.72; margin: 0 0 20px; color: #2b3640; }
+    h2 { font-family: var(--bp-font-display); font-size: 22px; font-weight: 700; margin: 36px 0 14px; color: var(--bp-text); }
+    strong { color: var(--bp-text); }
+    .post-divider { border: none; border-top: 1px solid var(--bp-border); margin: 32px 0; }
+    figure { margin: 28px 0; }
+    figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+    figcaption { font-size: 12px; color: var(--bp-muted); margin-top: 8px; text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    table th, table td { border: 1px solid var(--bp-border); padding: 10px 14px; text-align: left; }
+    table th { background: var(--bp-accent-light); font-weight: 700; color: var(--bp-text); }
+
+    /* Key Takeaways box */
+    .key-takeaways {
+      border: 1px solid var(--bp-border); border-radius: 12px; background: var(--bp-surface);
+      padding: 18px 22px; margin: 0 0 28px;
+    }
+    .key-takeaways .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bp-muted); margin-bottom: 8px; }
+    .key-takeaways ul { margin: 0; padding-left: 20px; }
+    .key-takeaways li { font-size: 15px; line-height: 1.6; margin-bottom: 6px; color: var(--bp-text); }
+
+    /* Responsive video embed (16:9) */
+    .video-embed { position: relative; width: 100%; padding-top: 56.25%; margin: 28px 0; border-radius: 10px; overflow: hidden; }
+    .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    /* Capability card — NOT a consumer product card. No fixed retail price;
+       references MOQ / decoration method / lead time, "Request Pricing" CTA. */
+    .capability-card {
+      border: 1px solid var(--bp-border); border-radius: 14px; padding: 18px; margin: 28px 0;
+      display: flex; gap: 18px; align-items: center; background: var(--bp-surface);
+    }
+    .capability-card a.img-link { flex: 0 0 110px; }
+    .capability-card a.img-link img { width: 110px; height: 110px; object-fit: cover; border-radius: 10px; display: block; }
+    .capability-card .details { flex: 1; min-width: 0; }
+    .capability-card .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bp-muted); margin-bottom: 4px; }
+    .capability-card .name { font-size: 17px; font-weight: 700; color: var(--bp-text); text-decoration: none; display: block; margin-bottom: 5px; }
+    .capability-card .desc { font-size: 13px; color: #55636c; margin: 0 0 8px; line-height: 1.5; }
+    .capability-card .specs { font-size: 12px; color: var(--bp-muted); margin: 0 0 12px; }
+    .capability-card .specs span { display: inline-block; margin-right: 12px; }
+    .capability-card .cta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .capability-card .btn {
+      background: var(--bp-accent); color: var(--bp-accent-text); text-decoration: none;
+      font-weight: 600; font-size: 13px; padding: 9px 18px; border-radius: 6px;
+    }
+
+    .cta-block { border: 1px solid var(--bp-border); border-radius: 12px; padding: 32px 24px; margin: 40px 0; background: #fff; text-align: center; }
+    .cta-block h2 { margin: 0 0 8px; font-size: 24px; color: var(--bp-text); }
+    .cta-block p { margin: 0 0 22px; font-size: 15px; color: #55636c; }
+    .cta-block .btn-main {
+      background: var(--bp-accent); color: var(--bp-accent-text); text-decoration: none;
+      font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 6px; display: inline-block;
+    }
+    .cta-block .proof-line { font-size: 12px; color: #9aa5ac; margin: 14px 0 0; }
+    .faq-block h3 { font-family: var(--bp-font-display); font-size: 17px; margin: 24px 0 8px; color: var(--bp-text); }
+    @media (max-width: 560px) {
+      h1 { font-size: 24px; }
+      .post-deck { font-size: 16px; }
+      .capability-card { flex-direction: column; align-items: flex-start; }
+      .capability-card a.img-link img { width: 100%; height: 180px; }
+      .capability-card a.img-link { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="post-wrapper">
+
+  <h1>{{HEADLINE}}</h1>
+
+  <!-- Answer-first / BLUF -->
+  <p class="post-deck">{{ANSWER_FIRST_DECK}}</p>
+
+  <p class="post-updated">Updated {{LAST_UPDATED_DISPLAY_DATE}}</p>
+
+  <!-- Key Takeaways: 3-5 bullets -->
+  <div class="key-takeaways">
+    <div class="eyebrow">Key takeaways</div>
+    <ul>
+      <li>{{KEY_TAKEAWAY_1}}</li>
+      <li>{{KEY_TAKEAWAY_2}}</li>
+      <li>{{KEY_TAKEAWAY_3}}</li>
+    </ul>
+  </div>
+
+  <!-- Hero image: real process/production photography per the brand's actual
+       visual direction (process shots, machinery, hands, production tables) —
+       never lifestyle or spa-style stock imagery. -->
+  <img class="post-hero" src="{{HERO_IMAGE_SRC}}" alt="{{HERO_IMAGE_ALT}}" loading="eager" />
+  <p class="post-caption">{{HERO_CAPTION}}</p>
+
+  <hr class="post-divider" />
+
+  <p>{{INTRO_PARAGRAPH}}</p>
+
+  <!-- Repeat this H2 + body pattern per section. Each section must stand on
+       its own. Link naturally to 2-4 relevant existing pages (other posts,
+       capability/service pages) — descriptive anchor text, never forced. -->
+  <h2>{{H2_QUESTION_1}}</h2>
+  <p>{{SECTION_1_BODY}}</p>
+
+  <figure>
+    <img src="{{EDITORIAL_IMAGE_SRC}}" alt="{{EDITORIAL_IMAGE_ALT}}" loading="lazy" />
+    <figcaption>{{EDITORIAL_CAPTION}}</figcaption>
+  </figure>
+
+  <!-- Optional relevant video embed, longer posts only -->
+  <div class="video-embed">
+    <iframe src="{{VIDEO_EMBED_URL}}" title="{{VIDEO_TITLE}}" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <!-- Capability card — repeat 2-4 times, only where content calls for it.
+       Never a fixed consumer price; never invented MOQ/lead time/decoration
+       method. CTA is "Request Pricing" / "Request a Sample" / "Talk to
+       Production," never "Shop Now." -->
+  <div class="capability-card">
+    <a href="{{CAPABILITY_URL}}" class="img-link">
+      <img src="{{CAPABILITY_IMAGE_SRC}}" alt="{{CAPABILITY_IMAGE_ALT}}" />
+    </a>
+    <div class="details">
+      <div class="eyebrow">Bath Promotions</div>
+      <a href="{{CAPABILITY_URL}}" class="name">{{CAPABILITY_NAME}}</a>
+      <p class="desc">{{CAPABILITY_ONE_LINER}}</p>
+      <p class="specs">
+        <span>MOQ: {{MOQ}}</span>
+        <span>Decoration: {{DECORATION_METHOD}}</span>
+        <span>Lead time: {{LEAD_TIME}}</span>
+      </p>
+      <div class="cta-row">
+        <a href="{{CAPABILITY_URL}}" class="btn">{{CAPABILITY_CTA_LABEL}} &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>{{H2_QUESTION_2}}</h2>
+  <p>{{SECTION_2_BODY}}</p>
+
+  <!-- Insert a real <table> here ONLY for comparison-style posts (e.g.
+       decoration method comparisons) — omit entirely otherwise. -->
+
+  <!-- Mid-page CTA — optional, longer posts only -->
+  <div class="cta-block">
+    <h2>{{MID_CTA_HEADLINE}}</h2>
+    <p>{{MID_CTA_SUBHEAD}}</p>
+    <a href="{{CTA_URL}}" class="btn-main">{{CTA_LABEL}} &rarr;</a>
+    <p class="proof-line">{{PROOF_LINE}}</p>
+  </div>
+
+  <!-- FAQ block: must exactly match the FAQPage JSON-LD above -->
+  <div class="faq-block">
+    <h2>Frequently asked questions</h2>
+    <h3>{{FAQ_Q1}}</h3>
+    <p>{{FAQ_A1}}</p>
+    <h3>{{FAQ_Q2}}</h3>
+    <p>{{FAQ_A2}}</p>
+  </div>
+
+  <!-- Closing CTA — request pricing / request a sample / talk to sales /
+       download the pitch deck / subscribe to the distributor newsletter.
+       Unlike CCLA, an email CTA is fine here. -->
+  <div class="cta-block">
+    <h2>{{CLOSING_CTA_HEADLINE}}</h2>
+    <p>{{CLOSING_CTA_SUBHEAD}}</p>
+    <a href="{{CTA_URL}}" class="btn-main">{{CTA_LABEL}} &rarr;</a>
+    <p class="proof-line">{{PROOF_LINE}}</p>
+  </div>
+
+</div>
+</body>
+</html>
