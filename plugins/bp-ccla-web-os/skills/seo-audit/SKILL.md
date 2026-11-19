@@ -14,7 +14,7 @@ The loop: **crawl → score → find opportunities → safe fixes → log → re
 ## Step 0: Read settings
 
 1. Find the Google Sheet "Website OS Ledger" (Drive `search_files`) and `get_values` on `Settings!A2:C40`. Read: `brands`, `seo_autofix`, `seo_max_fixes_per_brand_per_run`, `seo_pages_per_site`, `report_to`.
-2. For each brand in `brands`, read its entry in `website-context/references/sites.yaml`: `site_url`, `shopify_domain`, `gsc.url_prefix_property` (fall back to `gsc.domain_property`).
+2. For each brand in `brands`, read its entry in `website-context/references/sites.yaml`: `site_url`, `shopify_domain`, `gsc.domain_property` (the bp-ccla-google-data connector's service account is a user there; use `gsc.url_prefix_property` only if `list_properties` doesn't show the domain property).
 3. If the Ledger or the SEO tabs ("SEO Runs", "SEO Issues") are missing, stop and report BLOCKED: "run seo-setup first". Never improvise a ledger elsewhere.
 
 ## Step 1: Crawl and score (per brand)
@@ -30,9 +30,15 @@ It reads robots.txt, the sitemap, llms.txt and a sample of pages across every te
 
 **Scoring (out of 100):** indexability 20, metadata 25, structured data 15, images 10, internal links 10, AEO/GEO readiness 10, mobile speed 10. A category that couldn't be measured is listed under `not_measured` and the others re-weight. Never fill a gap with a guess.
 
-**Speed:** the script calls Google PageSpeed Insights without a key. Google often rate-limits keyless calls, so `speed` may come back not measured. If it does, try once with WebFetch on `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=<home>&strategy=mobile&category=performance` and record the performance score if returned. Otherwise report speed as "not measured this week".
+**Speed:** the script calls Google PageSpeed Insights without a key. Google often rate-limits keyless calls, so `speed` may come back not measured. If it does, call the connector's `pagespeed` tool on the home page (strategy `mobile`) and use its performance score. If that also fails, report speed as "not measured this week".
 
-**If the script exits 2 (site unreachable from this workspace):** fall back to WebFetch for the home page plus 5 pages from the sitemap (one per template), asking only for: title and length, meta description and length, canonical, H1 count, Open Graph tags, image count and images without alt. WebFetch converts pages to markdown, so JSON-LD and meta robots can't be read that way: mark `structured_data` and `indexability` as not measured instead of reporting "missing". Label the run "partial (WebFetch fallback)".
+**If the script exits 2 (site unreachable from this workspace), crawl through the connector instead.** Claude's cloud workspace usually can't reach the sites; the bp-ccla-google-data connector fetches them from Cloudflare and reads the raw HTML, so nothing is lost:
+1. `site_crawl_files` with the site origin: robots.txt rules, declared sitemaps and each child sitemap's URL count. Missing or empty sitemaps are indexability issues.
+2. Pick `seo_pages_per_site` URLs across every template: home, products, collections, blog posts, pages (use `site_crawl_files` with `sitemap_url` to list a child sitemap). Run `site_page_audit` on each. It returns status and redirects, meta robots, X-Robots-Tag, robots.txt verdict for Googlebot, canonical, title and description with lengths, H1/H2, JSON-LD types and parse errors, Open Graph, image alt gaps, internal links with anchor text, word count and an `issues` list.
+3. `site_check_urls` on the unique internal links from those pages (up to 50 per call) to find broken links and redirect chains.
+4. `pagespeed` on the home page (mobile). Add one product or blog page if quota allows.
+5. Map the results to the same categories and `fix_type` values as the script: a blank meta description is `auto_meta_description`, a product image with no alt is `auto_alt`, everything else is `manual`. llms.txt: `site_check_urls` on `<origin>/llms.txt` (200 = present).
+Label the run "full (connector crawl)". Only if the connector is not connected either, fall back to WebFetch for the home page plus 5 sitemap pages, asking only for title, meta description, canonical, H1 count, Open Graph and images without alt; mark `structured_data` and `indexability` not measured (WebFetch can't see JSON-LD or meta robots) and label the run "partial (WebFetch fallback)".
 
 ## Step 2: Search Console opportunities (if connected)
 
