@@ -16,11 +16,10 @@ For each connector, confirm its tools are available in this session and run one 
 | Connector | Read test | Needed for | Required |
 |---|---|---|---|
 | Google Sheets + Google Drive | list Drive files named "Website OS Ledger" | The Ledger; real brand images for featured images | Yes |
-| Shopify | `shop { name primaryDomain { host } myshopifyDomain }` | Safe fixes, publishing, live inventory, Shopify Analytics | Yes |
-| Google Search Console | 7-day query per brand property (`sites.yaml` → `gsc`) | Rankings, page-2 opportunities, index status | Recommended |
+| Shopify | `shop { name primaryDomain { host } myshopifyDomain }` | Safe fixes, publishing, live inventory | Yes |
+| Google Search Console | 7-day query per brand property (`sites.yaml` → `gsc`) | Rankings, clicks, impressions, page-2 opportunities, index status | Yes |
 | Gmail | read the signed-in profile or labels (no send) | Emailing the weekly report and the digest | Recommended |
-| Google Analytics 4 (or an aggregator) | 7-day landing-page query | Page-level traffic and conversions | Optional |
-| Semrush | one cheap read | Volume, difficulty, competitor rankings | Optional |
+| Google Analytics 4 | 7-day organic landing-page query per brand property; if `sites.yaml` → `ga4.property_id` is blank, list the account's properties, match by site and tell Jackie the ID to fill in | Engagement and conversions by landing page | Yes |
 | Workspace network | `python3 -I <plugin>/skills/seo-audit/scripts/site_audit.py --site <site_url> --brand <slug> --pages 1` | Full crawl (else WebFetch fallback) | Recommended |
 
 **Shopify note:** the connector reaches one store at a time. Record which store it's connected to. Writes (fixes, publishing) only happen on that store; the other brand gets proposals. To work on both automatically, connect the second store under a separate connector name if the org allows it. Never switch stores during a scheduled run.
@@ -36,7 +35,7 @@ For each connector, confirm its tools are available in this session and run one 
 ## Step 3: Seed the Ledger from the bundled strategy
 
 From `website-context` (dated Sep 2026, D1-verified statuses):
-- **Keywords:** one row per row in `brands/<brand>/keywords-2026-09.csv`. Map status to the Ledger's enum (bare value; qualifiers to Notes); Volume Source / Position Source = `semrush` with the file's date. Blank stays blank.
+- **Keywords:** one row per row in `brands/<brand>/keywords-2026-09.csv`. Copy only keyword, status (mapped to the Ledger's enum; qualifiers to Notes), intent, URL and publish date. Leave impressions, clicks and position blank: the first `keyword-intelligence` run fills them from Search Console.
 - **Clusters:** from `shared/clusters-2026-09.md`.
 - **Competitor Gaps:** none yet; leave for `competitor-intelligence`.
 - **Content:** read the live blog for each brand that the Shopify connector reaches (`articles` on the blog in `sites.yaml`, first 100, with handle, title, publishedAt, isPublished). For the other brand, read its articles sitemap (`<site_url>/sitemap_articles_1.xml`). One row per article, Created By `blog-worker` unless known otherwise, Status from what was read.

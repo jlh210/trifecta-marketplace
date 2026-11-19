@@ -12,7 +12,7 @@ In Julie's org it arrives through the marketplace (Organization settings > Plugi
 
 ## Start here
 
-1. Connect in Claude: **Shopify**, **Google Sheets**, **Google Drive** (required); **Google Search Console** and **Gmail** (recommended); GA4 and Semrush (optional).
+1. Connect in Claude: **Google Search Console**, **Google Analytics 4**, **Shopify**, **Google Sheets**, **Google Drive** (required) and **Gmail** (recommended).
 2. In Julie's account, type **`/seo setup`**. It checks connectors, creates the **Website OS Ledger** Google Sheet, seeds it from the bundled Sep 2026 strategy and the live blogs, runs a baseline audit (no changes made) and creates the **Weekly SEO Check** scheduled task (Wednesdays ~11:35 AM PT).
 3. Any time: **`/seo doctor`** for a health check, **`/seo audit`** for an on-demand check.
 
@@ -57,7 +57,7 @@ Agent: `site-content-reviewer` checks every customer-facing word (voice, banned 
 - Theme work happens on a duplicated theme; publishing a theme, deleting, redirects and robots.txt changes need an explicit yes in the conversation and never run unattended.
 - Every live write is logged in the Ledger's Changes tab with Before and After.
 - Reports go only to the internal `report_to` address.
-- Semrush is optional; Search Console, GA4 and Shopify are the first-party truth, and providers are never mixed in one trend.
+- SEO and performance data comes only from Google Search Console and GA4. No third-party SEO tools, no search-volume or difficulty figures.
 
 ## Coexisting with the blog worker
 

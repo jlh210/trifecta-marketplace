@@ -13,7 +13,7 @@ The full scorecard, comparable with the July 2026 baselines (`website-context/re
 Weights and bands: `website-os/references/scoring.md` (Technical 15, On-page 20, Schema 20, AEO on-site 20, Off-site AI and brand entity 25; 🟢 80+, 🟡 50 to 79, 🔴 under 50). Anything that needs Google's or Bing's own data and wasn't read this run is **Unverified**, never guessed.
 
 ## Process
-1. **Scope and sources:** read-only. Note which connectors were available (Search Console, GA4, Shopify, Semrush) and mark everything else Unverified.
+1. **Scope and sources:** read-only. Note which connectors were available (Search Console, GA4) and mark everything else Unverified.
 2. **Inventory:** robots.txt, sitemap counts by type (products, collections, pages, articles), llms.txt. Reuse `seo-audit/scripts/site_audit.py --pages 50`.
 3. **Technical / crawlability:** status codes, robots, sitemap, canonicals, indexation (Search Console if connected), Core Web Vitals (PageSpeed), HTTPS, redirect chains, variant URL handling.
 4. **On-page:** titles, meta descriptions, H1s, heading order, alt text coverage, internal linking, thin pages, keyword targeting vs the Keywords and Clusters tabs (does the site architecture match the planned clusters?).

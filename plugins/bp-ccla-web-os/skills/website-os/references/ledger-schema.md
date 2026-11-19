@@ -21,18 +21,17 @@ General rules:
 | seo_pages_per_site | 25 | pages sampled per site each weekly SEO check |
 | blog_publish_mode | live | live = `publisher` publishes finished articles (Julie, 2026-10-19: no approval or publishing gate); draft = create Shopify drafts only |
 | refresh_age_days | 75 | age after which a live post is reviewed for refresh (60 to 90 day window) |
-| semrush | auto | auto = use Semrush when its connector is connected; off = never |
 | pipeline_status | active | paused = content skills research and report but don't draft or publish (set by command-intake "pause") |
 
 ## Keywords (upsert by Brand + Keyword)
-Brand · Keyword · Cluster · Intent (informational, commercial, transactional, navigational) · Volume · Volume Source (semrush, google-ads, gsc-impressions, none) · Difficulty · Current Position · Position Source (gsc, semrush) · Position Date · Ranking URL · Target URL · Opportunity Score · Score Rationale · Status · Guard Status · Assigned Angle · Last Updated · Notes
+Brand · Keyword · Cluster · Intent (informational, commercial, transactional, navigational) · Impressions 28d · Clicks 28d · CTR · Current Position · Position Date · Ranking URL · Target URL · Opportunity Score · Score Rationale · Status · Guard Status · Assigned Angle · Last Updated · Notes
 
 Status is exactly one of: `candidate, research-pending, planned, draft, draft-queued, live, protected-existing, qa-failed, do-not-use`. Qualifiers go in Notes. Guard Status: `clear, angle-assigned, needs_decision`. Current Position is a pointer to the latest Ranking History row; update it from there, not separately.
 
 ## Ranking History (append-only)
-Date · Brand · Keyword · Position (integer or `not_ranking`) · Source (gsc, semrush) · Delta vs Last · URL · Notes
+Date · Brand · Keyword · Position (integer, or `no_data`) · Impressions · Clicks · Delta vs Last · URL · Notes
 
-One row per keyword per pull, even when unchanged. Never compute Delta across a source change (write `n/a` and note it). Negative delta = improved. Corrections are new rows with a note.
+All values are Google Search Console, 28-day window ending the Date. One row per keyword per pull, even when unchanged. Negative delta = improved. Corrections are new rows with a note.
 
 ## Clusters (upsert by Brand + Cluster)
 Brand · Cluster · Pillar URL · Supporting URLs · Missing Articles · Completion % · Authority Score · Est Monthly Opportunity · Priority (high, medium, low) · Last Reviewed · Notes
@@ -41,7 +40,7 @@ Brand · Cluster · Pillar URL · Supporting URLs · Missing Articles · Complet
 Brand · Title · URL · Shopify Article ID · Primary Keyword · Cluster · Status (draft, scheduled, live, unpublished) · Published Date · Last Updated · Created By (website-os, blog-worker, manual) · Featured Image Source · Internal Links Added · Index Status (unknown, submitted, indexed, not_indexed, error) · Index Checked · Last Refresh · Notes
 
 ## Competitor Gaps (append; update Status)
-Gap ID · Date · Brand · Competitor Domain · Gap Type (keyword, content, cluster, authority) · Keyword or Topic · Evidence (provider, report, date) · Cluster · Opportunity Score · Recommendation · Status (open, accepted, done, dismissed)
+Gap ID · Date · Brand · Competitor Domain · Gap Type (keyword, content, cluster) · Keyword or Topic · Evidence (what was seen, where, date) · Cluster · Opportunity Score · Recommendation · Status (open, accepted, done, dismissed)
 
 Never list the sister brand as a competitor.
 

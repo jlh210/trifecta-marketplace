@@ -1,23 +1,22 @@
-# Data sources: what each one answers
+# Data sources: Google Search Console and Google Analytics 4 only
+
+All SEO and performance data in this plugin comes from two Google sources. No third-party SEO tools (no Semrush, Ahrefs, Moz or traffic estimators), and no search-volume or keyword-difficulty figures from anywhere. If neither source is connected, say the numbers are not measured; never estimate.
 
 | Source | Connector | Answers | Doesn't answer |
 |---|---|---|---|
-| Google Search Console | Search Console connector | Per-query and per-page clicks, impressions, CTR, average position; URL inspection (indexed or not, last crawl, canonical); sitemaps | Search volume for terms you don't appear for; competitors |
-| Google Analytics 4 | GA4 connector (or an aggregator such as Supermetrics/Windsor.ai) | Organic sessions and engagement per landing page; conversions by landing page | Rankings |
-| Shopify | Shopify connector (one store at a time) | Live articles, pages, products, SEO fields, image alt text; ShopifyQL store-level sessions, sales by product, sales by referrer source | Per-article traffic (no landing-page dimension) |
-| Live site | the bundled `site_audit.py` crawler, or WebFetch | Titles, meta, canonicals, H1s, JSON-LD, alt text, links, robots.txt, llms.txt, sitemap | Anything behind JavaScript rendering (the crawler reads raw HTML) |
-| PageSpeed Insights | keyless HTTP (best effort) | Mobile performance score, lab LCP/CLS/TBT, field Core Web Vitals when available | Often rate-limited without a key: report "not measured" |
-| Google Ads API, Keyword Planner (optional) | Google Ads connector (manager account), if connected | Monthly search volume ranges and competition for keyword ideas (Google's own demand data) | Rankings |
-| Semrush (optional) | Semrush connector, only when connected and Settings `semrush` = auto | Search volume, keyword difficulty, CPC, intent, competitor rankings, organic traffic estimates, backlinks | First-party truth about your own clicks |
+| Google Search Console | Search Console connector | Per-query and per-page clicks, impressions, CTR, average position; URL inspection (indexed or not, last crawl, canonical); sitemaps | Demand for terms the site doesn't appear for; competitors' rankings |
+| Google Analytics 4 | GA4 connector | Organic sessions, engaged sessions, engagement time and key events (conversions) by landing page; organic share of traffic; conversion paths | Rankings or queries |
+
+What the other tools are still used for (not as data sources):
+- **Shopify connector:** reading and writing site content (articles, pages, products, SEO fields, alt text, theme). Not used for analytics.
+- **The site itself** (the bundled `site_audit.py` crawler, or WebFetch): titles, meta, canonicals, H1s, JSON-LD, alt text, links, robots.txt, llms.txt, sitemaps. This is a check of the pages, not a data provider.
+- **PageSpeed Insights** (Google's keyless page test, best effort): the mobile speed category of the weekly check. Often rate-limited; then "not measured".
 
 ## Rules
-- **Label provenance.** Every number written to the Ledger carries its source and date (Volume Source, Position Source, Evidence columns).
-- **Never mix providers in one trend.** Search Console position and Semrush rank measure different things. Separate rows, separate deltas.
-- **Search Console position math.** Window position = `SUM(position × impressions) / SUM(impressions)`. Current window ends yesterday (data lags 2 to 3 days, so the newest days are provisional); the prior window is the same length immediately before it. Improvement = prior minus current. If either window has no data, there is no delta. Missing does not mean unranked; queries can be withheld for privacy.
-- **Shopify Analytics is store-level.** It can say which products sell and which referrer sources convert, not which blog post was read. Label store-level findings as such.
-- **No Semrush, no problem.** Without it, use Google Ads Keyword Planner volumes if that connector exists (Volume Source `google-ads`), else Search Console impressions as the demand signal (Volume Source = gsc-impressions) and leave Difficulty blank. Say so in the report.
-- **Bing.** ChatGPT search leans on Bing's index; Bing Webmaster Tools isn't connected yet. Note it as unmeasured in AEO findings.
-- **Useful ShopifyQL:**
-  - `FROM sales SHOW gross_sales, net_sales, orders GROUP BY product_title SINCE -30d UNTIL today ORDER BY gross_sales DESC LIMIT 10`
-  - `FROM sessions SHOW sessions, sessions_with_cart_additions, sessions_that_completed_checkout, conversion_rate TIMESERIES day SINCE -30d UNTIL today`
-  - `FROM sales SHOW orders, total_sales GROUP BY order_referrer_source, order_referrer_name SINCE -30d UNTIL today`
+- **Demand = Search Console impressions.** There are no volume or difficulty numbers. A keyword's demand is its impressions over the last 28 days (and 90 days for slow terms). A topic the site has never appeared for has unknown demand; say so rather than guessing.
+- **Label period and source** on every number written to the Ledger (e.g. "GSC, 28d to 2026-11-17").
+- **Search Console position math.** Window position = `SUM(position × impressions) / SUM(impressions)`. The current window ends yesterday (the newest 2 to 3 days are provisional); the prior window is the same length immediately before it. Improvement = prior minus current. If either window has no data, there is no delta. Missing does not mean unranked; Google withholds some queries for privacy.
+- **Join GSC and GA4 on landing page URL** (normalize: lowercase host, strip query strings and trailing slashes) to see which ranking pages actually drive engaged sessions and conversions.
+- **Competitors** are not measured. Search Console can show where the brand ranks poorly on its own queries; whoever outranks it is read from the live search results page or the competitor's public pages, never from a third-party estimate.
+- **Bing** (which ChatGPT search leans on) isn't connected; note it as unmeasured in AEO findings.
+- **Older bundled files** (`website-context`, Sep 2026) contain Semrush volumes, difficulty and ranks. They are history only: never copy those numbers into the Ledger, a score or a report.

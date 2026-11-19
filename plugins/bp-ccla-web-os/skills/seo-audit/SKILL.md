@@ -41,7 +41,7 @@ For the brand's Search Console property, last 28 days vs the previous 28 (USA):
 - **Page-2 opportunities:** query + page pairs with average position 11 to 20 and 50+ impressions, sorted by impressions, top 10. These are the cheapest wins: the page already ranks, it needs a better title, more depth or internal links.
 - Pages whose clicks fell 30%+ period over period.
 
-If Search Console isn't connected or the property errors, say so in the report and continue. Never estimate clicks or positions. Semrush figures, if used at all, stay separate and labeled (`website-os/references/data-sources.md`).
+If Search Console isn't connected or the property errors, say so in the report and continue. Never estimate clicks or positions.
 
 ## Step 3: Compare with last week
 

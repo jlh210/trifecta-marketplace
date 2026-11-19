@@ -14,7 +14,7 @@ Brand · Cluster · Pillar URL · Supporting URLs · Missing Articles · Complet
 
 - **Completion %** = supporting articles that exist ÷ supporting articles judged necessary.
 - **Authority Score** (0 to 100) = how the cluster ranks as a whole: impression-weighted Search Console position across its keywords mapped to 0 to 100 (position 1 = 100, 10 = 60, 20 = 30, 50+ = 0), averaged with the share of its keywords in the top 10. Blank if no Search Console data.
-- **Est Monthly Opportunity** = sum of known volume (or impressions) for the missing articles' target keywords; label the source.
+- **Est Monthly Opportunity** = Search Console impressions (28 days) the cluster's missing-article keywords already get; blank when the site doesn't appear for them yet.
 
 ## Maintain (weekly, or when asked)
 1. Seed from `website-context/references/shared/clusters-2026-09.md` if the tab is empty.

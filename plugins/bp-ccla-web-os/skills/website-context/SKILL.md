@@ -18,12 +18,11 @@ Every Website OS skill gets site and brand facts from here, never from memory. I
 | Product catalog (dated spec sheet) | `references/brands/<brand>/product-catalog.md` and `catalog/*.csv` |
 | Known page URLs | `references/brands/<brand>/page-inventory.md` |
 | SEO strategy summary (Sep 2026) | `references/brands/<brand>/seo-strategy-2026-09.md` |
-| Keyword set with D1 publish status (Sep 2026) | `references/brands/<brand>/keywords-2026-09.csv` |
+| Keyword set with D1 publish status (Sep 2026; keyword, status and URL only) | `references/brands/<brand>/keywords-2026-09.csv` |
 | First full SEO/AEO audit (Jul 2026), the baseline for comparisons | `references/brands/<brand>/baseline-audit-2026-07.md` |
 | Clusters, pillar and supporting articles, target URLs (both brands) | `references/shared/clusters-2026-09.md` |
 | Verified competitor domains (both brands) | `references/shared/competitors-2026-09.md` |
 | Prioritized content opportunities | `references/shared/content-opportunities-2026-09.md` |
-| Ranking snapshot (Semrush, Sep 2026) | `references/shared/ranking-snapshot-2026-09.csv` |
 | What the live D1 read confirmed and left open | `references/shared/reconciliation-2026-09.md` |
 | Bath bomb title ownership (12 BP / 18 CCLA) and color-to-audience map | `references/shared/bath-bomb-content-strategy.md` |
 | Featured image guardrails (real brand asset only) | `references/shared/featured-image-sop.md` |
@@ -32,7 +31,7 @@ Every Website OS skill gets site and brand facts from here, never from memory. I
 
 ## Live beats bundled
 
-The bundled files are dated snapshots. The order of trust is:
+The bundled files are dated snapshots. The Sep 2026 strategy, cluster, competitor and opportunity files were researched with Semrush, which the Web OS no longer uses: use them for topics, clusters, statuses and decisions, never for numbers (volumes, difficulty, ranks, traffic). The order of trust is:
 1. A live read this run (Shopify connector, the live site, Search Console, GA4).
 2. The Website OS Ledger (Google Sheet), which the skills keep current.
 3. These reference files.

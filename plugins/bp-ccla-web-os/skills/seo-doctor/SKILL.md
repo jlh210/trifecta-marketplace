@@ -17,14 +17,14 @@ Run all of them, even if an early one fails.
 |---|---|---|---|---|
 | 1 | Ledger found | Drive `search_files` "Website OS Ledger" | exactly one file | none: run `seo-setup`; several: rename the extras so skills find the right one |
 | 2 | Ledger tabs | read row 1 of every tab in `website-os/references/ledger-schema.md` | all tabs exist with the schema headers | name the missing tab; run `seo-setup` Step 2 |
-| 3 | Settings | `get_values` `Settings!A2:C40` | `brands`, `report_to` (an email), `seo_autofix` (auto/approval/off), `seo_max_fixes_per_brand_per_run` (number), `seo_pages_per_site` (number), `blog_publish_mode` (live/draft), `refresh_age_days` (number), `semrush` (auto/off), `pipeline_status` (active/paused) present and valid | name the setting and its expected value |
+| 3 | Settings | `get_values` `Settings!A2:C40` | `brands`, `report_to` (an email), `seo_autofix` (auto/approval/off), `seo_max_fixes_per_brand_per_run` (number), `seo_pages_per_site` (number), `blog_publish_mode` (live/draft), `refresh_age_days` (number), `pipeline_status` (active/paused) present and valid | name the setting and its expected value |
 | 4 | Site config | each brand in `website-context/references/sites.yaml` | `site_url` answers HTTP 200; `shopify_domain` and `blog.handle` filled; CCLA `blog.id` filled | which value to fill (Jackie maintains the repo) |
 | 5 | Crawl | `python3 -I <plugin>/skills/seo-audit/scripts/site_audit.py --site <site_url> --brand <slug> --pages 1` | exit 0 | exit 2 = this workspace can't reach the site; weekly runs fall back to WebFetch (partial) |
 | 6 | Speed data | the summary's `not_measured` | `speed` measured | warn only: PageSpeed rate-limits keyless calls; scores re-weight without it |
 | 7 | Shopify | `shop { name primaryDomain { host } myshopifyDomain }` | matches one brand | not connected: connect Shopify. Say which brand gets automatic fixes and publishing and which only gets proposals |
 | 8 | Search Console | one 7-day query per brand property | rows returned | not connected or no access: connect it or have the property owner grant access |
-| 9 | GA4 | one 7-day landing-page query per brand, if a GA4 connector exists | rows returned | warn only: page-level traffic will be "not measured" |
-| 10 | Semrush | only if Settings `semrush` = auto: one cheap read | works | warn only: volumes and difficulty will be blank; Search Console impressions stand in |
+| 9 | GA4 | one 7-day organic landing-page query per brand property (`sites.yaml` → `ga4.property_id`) | rows returned | not connected or no access: connect GA4 or have the property owner grant access; engagement and conversions will be "not measured" |
+| 10 | No third-party data | Keywords and Ranking History rows written in the last 30 days | no volume or difficulty values and only Search Console figures | flag the rows for Jackie (a skill is pulling from somewhere it shouldn't) |
 | 11 | Gmail | read profile or labels (never send) | connected | connect Gmail, or reports stay in chat only |
 | 12 | Scheduled task | the session's scheduled-task list tool | "Weekly SEO Check (BP + CCLA)" exists, enabled, weekly, runs automatically | missing: run `seo-setup` Step 5; asks before acting: switch it to automatic approval in its settings |
 | 13 | Last SEO check | latest "SEO Runs" row per brand | Run Date within 8 days, Report Sent To filled | stale: the task didn't run or failed; blank Report Sent To: email failed, see check 11 |
