@@ -1,6 +1,6 @@
 # Intellier Trifecta Marketplace
 
-Private plugin marketplace that delivers **Trifecta Marketing OS** and **Website OS** to everyone in Julie Warnock's Claude organization (Bath Promotions, Custom Candles LA, Julie Warnock founder brand).
+Private plugin marketplace that delivers **Trifecta Marketing OS** and **BP + CCLA Web OS** to everyone in Julie Warnock's Claude organization (Bath Promotions, Custom Candles LA, Julie Warnock founder brand).
 
 Maintained by Intellier AI Technologies. Members can use the plugin but not edit it; all changes go through this repo.
 
@@ -9,17 +9,17 @@ Maintained by Intellier AI Technologies. Members can use the plugin but not edit
 ```
 .claude-plugin/marketplace.json      marketplace manifest (lists the plugins)
 plugins/trifecta-marketing-os/       marketing: campaigns, social, newsletters, Marketing Ledger
-plugins/website-os/                  websites: SEO/AEO checks, blog pipeline, Shopify publishing, Website OS Ledger
+plugins/bp-ccla-web-os/              websites: SEO/AEO checks, blog pipeline, Shopify publishing, Website OS Ledger
 ```
 
 ## Connect it to Julie's org (one time)
 
 1. In Julie's Claude account (Owner role): **Organization settings > Plugins & skills > Marketplaces**.
 2. Add plugins, source **GitHub**, repo `jlh210/trifecta-marketplace`. Approve the Claude GitHub App for this repo if prompted.
-3. Set **Trifecta Marketing OS** and **Website OS** to **Required** (or Website OS to Available for the people who work on the sites).
+3. Set **Trifecta Marketing OS** and **BP + CCLA Web OS** to **Required** (or the Web OS to Available for the people who work on the sites).
 4. In **Organization settings > Connectors**, add the connectors the plugin uses (GoHighLevel, Metricool, Klaviyo, Google Sheets/Drive, GA4/Search Console, Higgsfield, Canva). Each member connects with their own login.
 5. Run `marketing-routines-setup` once, on the approver's account only.
-6. Run `/seo setup` (Website OS) once, on Julie's account: it needs Shopify, Google Sheets and Drive, plus Search Console and Gmail.
+6. Run `/seo setup` (BP + CCLA Web OS) once, on Julie's account: it needs Shopify, Google Sheets and Drive, plus Search Console and Gmail.
 
 ## Ship an update
 
@@ -33,5 +33,5 @@ plugins/website-os/                  websites: SEO/AEO checks, blog pipeline, Sh
 
 ```
 /plugin install trifecta-marketing-os --marketplace jlh210/trifecta-marketplace
-/plugin install website-os --marketplace jlh210/trifecta-marketplace
+/plugin install bp-ccla-web-os --marketplace jlh210/trifecta-marketplace
 ```

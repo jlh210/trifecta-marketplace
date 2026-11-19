@@ -5,7 +5,7 @@
     "email": "jlh21001@gmail.com"
   },
   "metadata": {
-    "description": "Intellier-managed plugins for Julie Warnock's organization: Bath Promotions, Custom Candles LA and the Julie Warnock founder brand. Trifecta Marketing OS and Website OS."
+    "description": "Intellier-managed plugins for Julie Warnock's organization: Bath Promotions, Custom Candles LA and the Julie Warnock founder brand. Trifecta Marketing OS and BP + CCLA Web OS."
   },
   "plugins": [
     {
@@ -19,8 +19,8 @@
       "category": "marketing"
     },
     {
-      "name": "website-os",
-      "source": "./plugins/website-os",
+      "name": "bp-ccla-web-os",
+      "source": "./plugins/bp-ccla-web-os",
       "description": "Website OS for bathpromotions.com and customcandlesla.com: weekly SEO and AEO checks with safe Shopify fixes (/seo setup, /seo doctor, /seo audit), keyword, competitor and cluster intelligence, on-brand blog posts, real-asset featured images, internal links, Shopify publishing, index checks, performance tracking, executive reports and safe theme builds.",
       "version": "1.0.0",
       "author": {

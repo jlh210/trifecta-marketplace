@@ -1,11 +1,11 @@
-# Website OS
+# BP + CCLA Web OS (`bp-ccla-web-os`)
 
 The website department of Julie Warnock's AI OS, as a Claude plugin: **bathpromotions.com** (Bath Promotions) and **customcandlesla.com** (Custom Candles LA). Maintained by Intellier AI Technologies.
 
 ## Install
 
 ```
-/plugin install website-os --marketplace jlh210/trifecta-marketplace
+/plugin install bp-ccla-web-os --marketplace jlh210/trifecta-marketplace
 ```
 
 In Julie's org it arrives through the marketplace (Organization settings > Plugins & skills).
