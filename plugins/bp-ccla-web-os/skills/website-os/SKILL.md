@@ -16,6 +16,7 @@ The Website OS runs the two brand websites, **bathpromotions.com** (Bath Promoti
 | Set up the Website OS, the Ledger and the weekly SEO check, "/seo setup" | `seo-setup` |
 | Is the SEO check / Website OS working, "/seo doctor" | `seo-doctor` |
 | Weekly technical SEO + AEO check with safe fixes, "/seo audit", "how is our SEO" | `seo-audit` |
+| Apply fixes Julie approved, "/seo apply", "apply the approved fixes", "undo fix 3" (also the Daily SEO Apply task) | `seo-apply` |
 | Full scored SEO/AEO scorecard vs the July baseline (quarterly, incl. off-site entity) | `seo-aeo-audit` |
 | A deep dive on accessibility, Core Web Vitals, site-wide schema or a technical issue | `website-intelligence` |
 | Keyword opportunities, "what should we rank for", declining or emerging terms, cannibalization | `keyword-intelligence` |
@@ -44,6 +45,7 @@ The Website OS runs the two brand websites, **bathpromotions.com** (Bath Promoti
 4. **Write-safety tiers.**
    - *Read-only:* audits, research, reports. Always allowed.
    - *Safe write:* the Ledger; Shopify drafts; filling a **blank** meta description or alt text (within `seo-audit`'s guardrails). Allowed when the skill says so.
+   - *Approved write:* SEO titles, meta description and alt text rewrites, redirects for 404s, internal links in blog posts. Only after Julie approves each fix (chat or email button), applied by `seo-apply`, always with the Before value saved for undo.
    - *Live write:* publishing an article (per the Ledger setting `blog_publish_mode`), changing existing live text, redirects, theme files. Only as each skill's rules allow, logged with Before and After so it can be undone.
    - *Never without an explicit "yes" in this conversation:* publishing a theme (`themePublish`), deleting anything, editing robots.txt, URL handle changes. Never in an unattended run.
 5. **Never edit the live theme.** Theme work happens on a duplicated, unpublished theme (`website-engineer`).

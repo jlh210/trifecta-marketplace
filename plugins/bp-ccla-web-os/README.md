@@ -12,9 +12,11 @@ In Julie's org it arrives through the marketplace (Organization settings > Plugi
 
 ## Start here
 
-1. Connect in Claude: **Google Search Console**, **Google Analytics 4**, **Shopify**, **Google Sheets**, **Google Drive** (required) and **Gmail** (recommended).
-2. In Julie's account, type **`/seo setup`**. It checks connectors, creates the **Website OS Ledger** Google Sheet, seeds it from the bundled Sep 2026 strategy and the live blogs, runs a baseline audit (no changes made) and creates the **Weekly SEO Check** scheduled task (Wednesdays ~11:35 AM PT).
-3. Any time: **`/seo doctor`** for a health check, **`/seo audit`** for an on-demand check.
+1. Connect in Claude: **bp-ccla-google-data** (Search Console, GA4, site crawl, fix approvals), **Shopify**, **Google Sheets**, **Google Drive** (required) and **Gmail** (recommended).
+2. In Julie's account, type **`/seo setup`**. It checks connectors, creates the **Website OS Ledger** Google Sheet, seeds it from the bundled Sep 2026 strategy and the live blogs, runs a baseline audit (no changes made) and creates the **Weekly SEO Check** (Wednesdays ~11:35 AM PT) and **Daily SEO Apply** (daily ~5:47 AM PT) scheduled tasks. Already set up? Run it again; it only adds what's missing.
+3. Any time: **`/seo doctor`** for a health check, **`/seo audit`** for an on-demand check (approve its proposed fixes right in the chat: "approve 1 and 3"), **`/seo apply`** to apply approved fixes or undo one.
+
+**Approving fixes:** the weekly email lists proposed fixes (titles, meta descriptions, alt text, redirects, internal links) with Approve and Skip buttons. A button opens a confirmation page; nothing changes until you press Approve there. The Daily SEO Apply task makes approved changes the next morning and emails a confirmation with Undo buttons.
 
 ## Skills
 
@@ -25,6 +27,7 @@ In Julie's org it arrives through the marketplace (Organization settings > Plugi
 | `seo-setup` | Connectors, Ledger, seeding, baseline, weekly scheduled task | "/seo setup" |
 | `seo-doctor` | Read-only health check of everything | "/seo doctor" |
 | `seo-audit` | Weekly technical SEO + AEO score out of 100, Search Console page-2 wins, safe fixes, emailed report | "/seo audit" |
+| `seo-apply` | Applies fixes Julie approved (chat or email buttons), verifies them live, logs before/after, undo | "/seo apply", "undo fix 3" |
 | `seo-aeo-audit` | Quarterly 5-area scorecard vs the July 2026 baseline, incl. AI-answer visibility | "full SEO/AEO audit" |
 | `website-intelligence` | Deep dives: accessibility, Core Web Vitals, schema coverage, indexation | "why is the site slow" |
 | `keyword-intelligence` | Keyword inventory, striking distance, declining/emerging, cannibalization, cross-brand guard, the next topic | "find a new blog topic" |

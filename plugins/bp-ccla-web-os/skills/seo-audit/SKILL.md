@@ -1,21 +1,21 @@
 ---
 name: seo-audit
-description: "This skill should be used when the user asks for a website SEO check: \"/seo audit\", \"/seo\", \"audit the site\", \"how is our SEO\", \"technical SEO check\", \"why aren't we ranking\", \"check bathpromotions.com / customcandlesla.com\", \"AEO check\", \"is the site ready for AI search\", or when the scheduled Weekly SEO Check runs. Crawls each brand's Shopify site, scores it out of 100 (indexability, metadata, schema, images, internal links, AEO, speed), adds Search Console page-2 opportunities, compares with last week, applies safe fixes in Shopify within strict guardrails, logs everything to the Website OS Ledger and emails the summary to the Ledger's `report_to` address.\n"
+description: "This skill should be used when the user asks for a website SEO check: \"/seo audit\", \"/seo\", \"audit the site\", \"how is our SEO\", \"technical SEO check\", \"why aren't we ranking\", \"check bathpromotions.com / customcandlesla.com\", \"AEO check\", \"is the site ready for AI search\", or when the scheduled Weekly SEO Check runs. Crawls each brand's Shopify site, scores it out of 100 (indexability, metadata, schema, images, internal links, AEO, speed), adds Search Console page-2 opportunities, compares with last week, applies safe fixes in Shopify within strict guardrails, proposes bigger fixes (titles, meta, alt text, redirects, internal links) for Julie to approve in chat or with one-tap email buttons, logs everything to the Website OS Ledger and emails the summary to the Ledger's `report_to` address. Also handles replies to its proposals: \"approve all\", \"approve 1 and 3\", \"skip 2\", \"change 2 to ...\", \"undo 1\".\n"
 metadata:
-  version: "1.0.0"
+  version: "1.3.0"
 ---
 
 # SEO Audit (weekly website check)
 
 Website SEO for the brands that have a site: **Bath Promotions** (bathpromotions.com) and **Custom Candles LA** (customcandlesla.com). The Julie Warnock founder brand has no store and is skipped. Site and brand facts come from `website-context`; house rules from `website-os`. Run `seo-setup` once before the first audit; if something looks broken, run `seo-doctor`.
 
-The loop: **crawl → score → find opportunities → safe fixes → log → report.**
+The loop: **crawl → score → find opportunities → safe fixes → propose fixes for approval → log → report → apply what Julie approves.**
 
 ## Step 0: Read settings
 
-1. Find the Google Sheet "Website OS Ledger" (Drive `search_files`) and `get_values` on `Settings!A2:C40`. Read: `brands`, `seo_autofix`, `seo_max_fixes_per_brand_per_run`, `seo_pages_per_site`, `report_to`.
+1. Find the Google Sheet "Website OS Ledger" (Drive `search_files`) and `get_values` on `Settings!A2:C40`. Read: `brands`, `seo_autofix`, `seo_max_fixes_per_brand_per_run`, `seo_pages_per_site`, `report_to`, `seo_fix_approval`, `seo_max_proposals_per_brand_per_run`, `fix_link_expiry_days`.
 2. For each brand in `brands`, read its entry in `website-context/references/sites.yaml`: `site_url`, `shopify_domain`, `gsc.domain_property` (the bp-ccla-google-data connector's service account is a user there; use `gsc.url_prefix_property` only if `list_properties` doesn't show the domain property).
-3. If the Ledger or the SEO tabs ("SEO Runs", "SEO Issues") are missing, stop and report BLOCKED: "run seo-setup first". Never improvise a ledger elsewhere.
+3. If the Ledger or the SEO tabs ("SEO Runs", "SEO Issues") are missing, stop and report BLOCKED: "run seo-setup first". Never improvise a ledger elsewhere. If only the "Fix Queue" tab is missing, create it with the header from `website-os/references/ledger-schema.md` and continue.
 
 ## Step 1: Crawl and score (per brand)
 
@@ -66,7 +66,7 @@ Only two fix types are ever automatic, and only when they **fill a blank**:
 | `auto_alt` | Product images with no alt text | the product's media (file) `alt` |
 
 **Guardrails (all must hold):**
-1. `seo_autofix` = `auto`. If `approval`, write every fix as `proposed` and list it in the report; if `off`, skip this step.
+1. `seo_autofix` = `auto`. If `approval`, don't write: add each of these fixes to the Step 4b proposals (Fix Type `auto_meta_description` / `auto_alt`) so Julie approves them with the rest; if `off`, skip this step.
 2. The Shopify connector is pointed at **this brand's store**. Check first with a read: `shop { primaryDomain { host } myshopifyDomain }` and compare with `site_url` / `shopify_domain` in `sites.yaml`. If it's the other store or not connected, every fix for this brand becomes `proposed`. Never switch or reconnect stores in an unattended run.
 3. The current value is truly empty. Read the resource first; never overwrite existing text.
 4. At most `seo_max_fixes_per_brand_per_run` applied per brand per run; the rest are `proposed`.
@@ -79,7 +79,17 @@ Only two fix types are ever automatic, and only when they **fill a blank**:
 
 Log every fix (applied or proposed) to the **Changes** tab: Change ID `seo-<brand>-<yyyymmdd>-<n>`, Run Date, Resource URL, Brand, What Changed `seo_meta_description` or `seo_alt_text`, Before (blank), After, Reason (the audit issue), Mode `applied` or `proposed`, Applied By `seo-audit`. **Undo** = set the field back to blank and mark the row `reverted`.
 
-When a user later approves proposed fixes in a conversation ("apply the SEO fixes", "approve fixes 1 to 4"), apply exactly those with the same guardrails 2 to 6 and mark them `applied`.
+Approval-first fixes (titles, rewrites, redirects, internal links) are proposed in Step 4b and applied only after approval (Step 7).
+
+## Step 4b: Propose fixes for approval
+
+Skip this step if `seo_fix_approval` = `off`.
+
+1. From this run's issues and Search Console opportunities, build proposals using **only** the fix types and rules in `references/fix-catalog.md` (titles, meta descriptions, alt text, redirects, internal links). Read each current value from Shopify first. Apply the catalog's "don't repeat yourself" check against the Fix Queue.
+2. Run the `site-content-reviewer` agent on the batch. Drop or rewrite anything it flags.
+3. Append one **Fix Queue** row per proposal (schema in `website-os/references/ledger-schema.md`), Status `proposed`. Also mark the matching SEO Issues row `proposed`.
+4. **Email buttons** (only if `seo_fix_approval` = `email_and_chat`, the default): call the connector's `register_fixes` once per brand with the batch ID, every proposal (fix_id, brand, title, page_url, field, current_value, proposed_value, reason, risk) and `expires_days` = `fix_link_expiry_days`. Keep the returned `approve_url`, `skip_url` and `approve_all_url` for the email. If the connector isn't connected or returns an error (e.g. FIX_SIGNING_KEY missing), send the email without buttons, tell the reader to approve in chat, and note it under "Not measured this week".
+5. Proposals on the brand whose store the Shopify connector does **not** reach are still proposed: they wait as `approved` until that store is connected, and the report says so.
 
 ## Step 5: Log to the Ledger
 
@@ -98,7 +108,7 @@ Write the report once, then use it for both chat and email.
 **Scores:** brand, score (change vs last week), weakest category.
 **Needs attention:** new critical/high issues, drops of 5+ points, pages that broke. Empty = "Nothing urgent."
 **Fixed automatically:** count by type, with 3 examples (page, before → after).
-**Waiting for approval:** proposed fixes, numbered, so the reply can be "approve 1 to 5".
+**Waiting for approval:** every proposed fix, numbered per run (1, 2, 3 ... across both brands), each with brand, page, Now → New, and one line of why with the evidence. End with: reply "approve all", "approve 1 and 3", "skip 2" or "change 2 to ...".
 **Top 5 recommendations:** the highest-impact manual fixes, plain language, one line each, with the page.
 **Search Console:** clicks and impressions vs prior 28 days; top page-2 opportunities (query, page, position, impressions) and what to change.
 **Not measured this week:** e.g. speed (PageSpeed rate-limited), Search Console not connected.
@@ -106,9 +116,28 @@ Write the report once, then use it for both chat and email.
 
 - Append a **Run Log** row per brand (Skill `seo-audit`) and one **Reports** row (`WebsiteExecutiveReport`, workflow `seo-audit`, brand `both`, priority high if anything needs attention).
 - Post it in chat (SendUserMessage when running as a scheduled task) with the Ledger link.
-- **Email it to `report_to`** with the Gmail connector (`send_message`), subject `Weekly SEO check: BP <score>, CCLA <score> (<date>)`, plain readable formatting. This internal report only ever goes to the address in `report_to`, never to customers or lists. If Gmail isn't connected or `report_to` is blank, create no draft elsewhere; say in the chat report that the email couldn't be sent and why.
+- **Email it to `report_to`** with the Gmail connector (`send_message`), subject `Weekly SEO check: BP <score>, CCLA <score> (<date>)`, plain readable formatting. When there are proposals with links from Step 4b, the subject becomes `Weekly SEO check: <n> fixes ready for approval (<date>)` and the email carries the buttons:
+  - At the top: an **Approve all** link per brand (`approve_all_url`).
+  - Under each numbered fix: **Approve** (`approve_url`) and **Skip** (`skip_url`).
+  - If the Gmail tool accepts an HTML body, render each link as a button-style link (`<a href=...>` with padding, a border and rounded corners; no images, no scripts). Otherwise put each link on its own line, labelled `Approve fix 3:` / `Skip fix 3:`.
+  - A footer line: "Links open a confirmation page; nothing changes until you press Approve there. Approved fixes go live with the next daily apply. Links expire in <fix_link_expiry_days> days."
+  - Never put the links anywhere except this email to `report_to`. This internal report only ever goes to the address in `report_to`, never to customers or lists. If Gmail isn't connected or `report_to` is blank, create no draft elsewhere; say in the chat report that the email couldn't be sent and why.
 - Push a notification when running as a scheduled task.
 
 ## Facts vs inference
 
 Scores, counts and GSC numbers are facts from this run. "Why" a ranking moved is inference: label it. If a run is partial (fallback, missing connector), say so at the top of the report.
+
+## Step 7: Approvals in this chat
+
+When Julie (or whoever ran the audit) replies to the proposals in the same conversation:
+
+| Reply | Do |
+|---|---|
+| "approve all" / "approve 1, 3 and 5" / "yes to 2" | Set those Fix Queue rows `approved` (Decided Via `chat`), call `mark_fixes` with status `approved` for each (so the email links show it's decided), then apply them right away by following the `seo-apply` skill's Steps 2 to 5 for just those fixes |
+| "skip 2" / "no to 4" | Fix Queue `skipped`; `mark_fixes` `skipped`. Nothing changes on the site |
+| "change 2 to <text>" | Replace Proposed Value with her text, re-check it against the catalog rules (length, claims; tell her plainly if it breaks one and why), show it back, and apply only after she confirms |
+| "undo 1" | Follow `seo-apply` Step 6 (undo) for that fix now |
+| Anything ambiguous ("do the good ones") | Ask which numbers. Never guess an approval |
+
+Numbers always refer to the numbering in this run's report. If the conversation is old or the numbering is unclear, list the open proposals from the Fix Queue with fresh numbers and ask again. Report back what was applied, what failed and why, and how to undo.
