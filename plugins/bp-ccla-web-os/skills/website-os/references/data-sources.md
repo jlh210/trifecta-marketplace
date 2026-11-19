@@ -4,8 +4,8 @@ All SEO and performance data in this plugin comes from two Google sources. No th
 
 | Source | Connector | Answers | Doesn't answer |
 |---|---|---|---|
-| Google Search Console | Search Console connector | Per-query and per-page clicks, impressions, CTR, average position; URL inspection (indexed or not, last crawl, canonical); sitemaps | Demand for terms the site doesn't appear for; competitors' rankings |
-| Google Analytics 4 | GA4 connector | Organic sessions, engaged sessions, engagement time and key events (conversions) by landing page; organic share of traffic; conversion paths | Rankings or queries |
+| Google Search Console | Search Console connector (`bp-ccla-google-data`: `gsc_search_analytics`, `gsc_inspect_url`, `gsc_sitemaps`) | Per-query and per-page clicks, impressions, CTR, average position; URL inspection (indexed or not, last crawl, canonical); sitemaps | Demand for terms the site doesn't appear for; competitors' rankings |
+| Google Analytics 4 | GA4 connector (`bp-ccla-google-data`: `ga4_run_report`; `list_properties` shows both brands) | Organic sessions, engaged sessions, engagement time and key events (conversions) by landing page; organic share of traffic; conversion paths | Rankings or queries |
 
 What the other tools are still used for (not as data sources):
 - **Shopify connector:** reading and writing site content (articles, pages, products, SEO fields, alt text, theme). Not used for analytics.

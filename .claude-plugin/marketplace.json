@@ -22,7 +22,7 @@
       "name": "bp-ccla-web-os",
       "source": "./plugins/bp-ccla-web-os",
       "description": "Website OS for bathpromotions.com and customcandlesla.com: weekly SEO and AEO checks with safe Shopify fixes (/seo setup, /seo doctor, /seo audit), keyword, competitor and cluster intelligence, on-brand blog posts, real-asset featured images, internal links, Shopify publishing, index checks, performance tracking, executive reports and safe theme builds.",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "author": {
         "name": "Intellier AI Technologies"
       },
