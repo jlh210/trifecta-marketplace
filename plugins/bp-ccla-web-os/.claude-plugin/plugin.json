@@ -1,7 +1,7 @@
 {
   "name": "bp-ccla-web-os",
-  "version": "1.2.0",
-  "description": "Website OS for bathpromotions.com and customcandlesla.com: weekly SEO and AEO checks using only Google Search Console and GA4 data with safe Shopify fixes (/seo setup, /seo doctor, /seo audit), keyword, competitor and topic-cluster intelligence, on-brand SEO/AEO blog posts for Bath Promotions and Custom Candles LA, featured images from real brand assets, internal linking, Shopify publishing, index checks, performance tracking, executive reports and safe theme builds on a duplicated theme.",
+  "version": "1.3.0",
+  "description": "Website OS for bathpromotions.com and customcandlesla.com: weekly SEO and AEO checks using only Google Search Console and GA4 data with safe Shopify fixes and approve-to-apply fixes from chat or one-tap email buttons (/seo setup, /seo doctor, /seo audit, /seo apply), keyword, competitor and topic-cluster intelligence, on-brand SEO/AEO blog posts for Bath Promotions and Custom Candles LA, featured images from real brand assets, internal linking, Shopify publishing, index checks, performance tracking, executive reports and safe theme builds on a duplicated theme.",
   "author": {
     "name": "Intellier AI Technologies"
   },

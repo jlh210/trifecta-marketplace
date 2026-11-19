@@ -19,6 +19,10 @@ General rules:
 | seo_autofix | auto | auto = fill blank meta descriptions and product image alt text within the cap; approval = propose only; off = report only |
 | seo_max_fixes_per_brand_per_run | 10 | cap on automatic SEO fixes per brand per run |
 | seo_pages_per_site | 25 | pages sampled per site each weekly SEO check |
+| seo_fix_approval | email_and_chat | email_and_chat = proposals go in the weekly email with Approve/Skip buttons and can also be approved in chat; chat_only = no buttons; off = no proposals, report only |
+| seo_max_proposals_per_brand_per_run | 10 | cap on approval-first fixes proposed per brand per weekly run |
+| seo_max_applies_per_day | 25 | cap on approved fixes `seo-apply` writes per day across both brands |
+| fix_link_expiry_days | 7 | how long the email Approve/Skip links work; unapproved proposals expire after this |
 | blog_publish_mode | live | live = `publisher` publishes finished articles (Julie, 2026-10-19: no approval or publishing gate); draft = create Shopify drafts only |
 | refresh_age_days | 75 | age after which a live post is reviewed for refresh (60 to 90 day window) |
 | pipeline_status | active | paused = content skills research and report but don't draft or publish (set by command-intake "pause") |
@@ -52,8 +56,13 @@ Category columns are 0 to 100; blank = not measured that week.
 ## SEO Issues (upsert by Brand + URL + Problem)
 Issue ID · Brand · Severity (critical, high, medium, low) · Category · URL · Problem · Fix Type (auto_meta_description, auto_alt, manual) · Status (open, proposed, fixed_auto, resolved, wont_fix) · First Seen · Last Seen · Last Run ID · Notes
 
+## Fix Queue (one row per proposed fix; update Status in place)
+Fix ID (`<BP|CCLA>-<yyyymmdd>-<nn>`) · Batch · Created · Brand · Store · Page URL · Resource Type (product, collection, page, article, redirect) · Resource GID · Field · Fix Type (seo_title, seo_meta_description, image_alt, redirect, internal_link, auto_meta_description, auto_alt) · Current Value · Proposed Value · Reason · Evidence · Risk (approve_first) · Status (proposed, approved, skipped, applied, failed, undo_requested, undone, expired, superseded) · Decided Via (chat, email) · Decided At · Applied At · Change ID · Result Notes
+
+Written by `seo-audit` (proposals) and `seo-apply` (decisions, results). The connector's approval inbox mirrors Status for fixes sent with email buttons; the Fix Queue is the record. Fix types and rules: `seo-audit/references/fix-catalog.md`.
+
 ## Changes (every write to a live site field)
-Change ID (`<skill-short>-<brand>-<yyyymmdd>-<n>`) · Run Date · Resource URL · Brand · What Changed (seo_meta_description, seo_alt_text, article_published, article_body, article_meta, internal_links, featured_image, theme_files, other) · Before · After · Reason · Mode (proposed, applied, reverted, rejected) · Applied By (skill name or person)
+Change ID (`<skill-short>-<brand>-<yyyymmdd>-<n>`) · Run Date · Resource URL · Brand · What Changed (seo_meta_description, seo_title, seo_alt_text, redirect, article_published, article_body, article_meta, internal_links, featured_image, theme_files, other) · Before · After · Reason · Mode (proposed, applied, reverted, rejected) · Applied By (skill name or person)
 
 Undo = write Before back and mark the row `reverted`.
 

@@ -2,7 +2,7 @@
 name: seo-doctor
 description: "This skill should be used when the user asks whether the SEO check or the Website OS is working: \"/seo doctor\", \"is the SEO audit running\", \"did the SEO check run this week\", \"why didn't I get the SEO email\", \"SEO health check\", \"is the Web OS healthy\", \"check the website setup\". Read-only diagnosis: connectors, Website OS Ledger tabs and settings, site config, crawl reachability, the scheduled task, the last runs of every Website OS skill and the fix trail. Changes nothing; tells the user exactly what to fix.\n"
 metadata:
-  version: "1.0.0"
+  version: "1.3.0"
 ---
 
 # SEO Doctor
@@ -31,6 +31,8 @@ Run all of them, even if an early one fails.
 | 14 | Other skills | latest "Run Log" row per brand and skill | no `failed` result newer than the last `ok` for that skill | list each failing skill with its Blockers text |
 | 15 | Fix trail | "Changes" rows this week | automatic SEO fixes ≤ `seo_max_fixes_per_brand_per_run` per brand; every applied row has Before and After | over the cap or missing Before: flag it for Jackie (possible bug) |
 | 16 | Blog freshness | Content tab, newest live article per brand vs the live blog (Shopify `articles` sorted by publishedAt, or the blog's sitemap) | Ledger is within 7 days of the live site | warn: the blog worker published posts the Ledger hasn't recorded; run `performance-intelligence` to sync |
+| 17 | Fix approvals | connector `list_fix_decisions` (status `["approved","undo_requested"]`) and the Fix Queue | tool answers; nothing `approved` older than 2 days | tool error: connector not connected or FIX_SIGNING_KEY not set (email buttons off, chat approvals still work); stale approvals: the Daily SEO Apply task isn't running or the other store isn't connected |
+| 18 | Daily SEO Apply task | the account's scheduled tasks | "Daily SEO Apply (BP + CCLA)" exists and is enabled | missing: run `/seo setup` again (it only adds what's missing) |
 
 ## Report
 
