@@ -10,7 +10,7 @@ metadata:
 A standing intelligence function, not a one-off list: it keeps each brand's keyword inventory current, spots what's rising, falling or competing with itself, and hands `content-intelligence` exactly one validated, scored topic when asked. House rules: `website-os`. Facts: `website-context`.
 
 ## Step 0: Read state
-1. Ledger Settings (`brands`, `semrush`, `pipeline_status`), then the Keywords, Ranking History, Clusters and Content tabs for the brand(s).
+1. Ledger Settings (`brands`, `pipeline_status`), then the Keywords, Ranking History, Clusters and Content tabs for the brand(s).
 2. If Keywords is empty for a brand, seed it from `website-context/references/brands/<brand>/keywords-2026-09.csv` (see `seo-setup` Step 3) before continuing.
 
 ## Step 1: Pull signals (per brand)
@@ -18,13 +18,14 @@ A standing intelligence function, not a one-off list: it keeps each brand's keyw
   - *Striking distance:* queries at position 4 to 20 with 30+ impressions.
   - *Emerging:* queries with impressions up 50%+ or new this window (20+ impressions).
   - *Declining:* tracked keywords whose position worsened by 3+ or clicks fell 30%+.
-- **Semrush** (only if connected and Settings `semrush` = auto): related and long-tail phrases, volume, difficulty, intent, CPC for the brand's seed terms and clusters; the brand's own organic positions. Label provider and date. Without Semrush, use Google Ads Keyword Planner volumes if that connector is connected (Volume Source `google-ads`), else Search Console impressions; difficulty stays blank.
+- **GA4:** organic landing pages with sessions, engagement and key events (conversions), joined to Search Console pages by URL, so topics near pages that convert rank higher.
+- **New keyword ideas** come only from: Search Console queries the site already gets impressions for (especially ones with no dedicated page), the planned keywords in the Ledger and the bundled Sep 2026 list, missing articles in Clusters, and content gaps from `competitor-intelligence`. There are no third-party volume or difficulty numbers; demand is Search Console impressions (`website-os/references/data-sources.md`).
 - **Live inventory:** the Content tab plus a fresh read of the live blog (Shopify `articles` for the connected store, or the brand's `sitemap_articles_1.xml`) so you know what already exists, whoever published it.
 
 ## Step 2: Classify and record
 For every candidate: intent (informational, commercial, transactional, navigational), long-tail variants, the cluster it belongs to (ask `topic-cluster-intelligence` for new ones), business relevance (does it map to a live product or collection in the catalog?).
 
-Append one **Ranking History** row per tracked keyword per source this pull (even unchanged). Update **Keywords** (upsert by Brand + Keyword): Current Position, Position Source, Position Date, Ranking URL from the newest Ranking History row; Volume and Difficulty with their source; Status unchanged unless the live inventory shows otherwise (a keyword with a live article is `live`).
+Append one **Ranking History** row per tracked keyword per source this pull (even unchanged). Update **Keywords** (upsert by Brand + Keyword): Current Position, Position Date, Ranking URL, Impressions 28d, Clicks 28d and CTR from the newest Ranking History row; Status unchanged unless the live inventory shows otherwise (a keyword with a live article is `live`).
 
 ## Step 3: Cannibalization check
 Two or more live pages on the **same** site ranking for, or targeting, the same keyword: record both URLs in Notes, set the recommendation (consolidate, re-target one, or differentiate intent) and don't emit that keyword as a new topic. A keyword with a live, draft or queued article is never emitted as a new article; it can only come back as a refresh (`refresh_of`).
@@ -46,6 +47,6 @@ Pick the highest-scored keyword for the brand that is `candidate` or `planned`, 
 - Reports row: summary of new opportunities, the top 3 with scores, declining and emerging terms, cannibalization and cross-brand flags (`needs_decision` items are priority high).
 
 ## Rules
-- Never invent volume, difficulty or position. Blank means not measured.
-- Never mix Semrush and Search Console in one delta.
+- Never invent impressions, clicks or position, and never add volume or difficulty figures from any source. Blank means not measured.
+- Never copy numbers from the Sep 2026 bundled files (Semrush-era history) into the Ledger.
 - Sister brands are never competitors; their overlap is a guard issue.

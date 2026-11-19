@@ -21,7 +21,9 @@ brands:
     gsc:
       url_prefix_property: "https://bathpromotions.com/"
       domain_property: "sc-domain:bathpromotions.com"
-    ga4_owner_account: "julie@bathpromotions.com"
+    ga4:
+      property_id: ""                    # read once with the GA4 connector at /seo setup and fill
+      owner_account: "julie@bathpromotions.com"
     drive_folders:
       assets: "1BGPh6kQw9CnVJWkXe519n5eN6CARcv0s"      # Bath Promotions - Assets
       campaigns: "1-ybfP_Hc66huFchv68uwXUwkxeYTv5O1"   # Bath Promotions - Campaigns
@@ -45,7 +47,9 @@ brands:
     gsc:
       url_prefix_property: "https://customcandlesla.com/"
       domain_property: "sc-domain:customcandlesla.com"
-    ga4_owner_account: "customcandleslajordan@gmail.com"
+    ga4:
+      property_id: ""                    # read once with the GA4 connector at /seo setup and fill
+      owner_account: "customcandleslajordan@gmail.com"
     drive_folders:
       assets: "1nUwK5yaEXpq1yq-xAPu8b0zzkYMfFjbB"      # Custom Candles LA - Assets (was empty Jul 2026)
       campaigns: "1D97EBa6vVQKCUdT9D-Tfoo_eS9HDI6YM"   # Custom Candles LA - Campaigns

@@ -47,7 +47,7 @@ The Website OS runs the two brand websites, **bathpromotions.com** (Bath Promoti
    - *Live write:* publishing an article (per the Ledger setting `blog_publish_mode`), changing existing live text, redirects, theme files. Only as each skill's rules allow, logged with Before and After so it can be undone.
    - *Never without an explicit "yes" in this conversation:* publishing a theme (`themePublish`), deleting anything, editing robots.txt, URL handle changes. Never in an unattended run.
 5. **Never edit the live theme.** Theme work happens on a duplicated, unpublished theme (`website-engineer`).
-6. **Data sources.** Search Console, GA4 and Shopify Analytics are the first-party truth; PageSpeed Insights for speed. Semrush is optional: use it only if its connector is connected, label every Semrush figure with provider and date, and never mix Semrush and Search Console positions in one trend (`references/data-sources.md`).
+6. **Data sources: Google Search Console and GA4 only.** No third-party SEO tools, no search-volume or difficulty figures. Shopify is for site content, not analytics; PageSpeed only feeds the weekly speed check (`references/data-sources.md`).
 7. **Every customer-facing word passes the `site-content-reviewer` agent** (voice, banned terms, cross-brand guard, unsupported claims, em dashes) before it's published or written to a live field.
 8. **Log everything** to the Website OS Ledger (`references/ledger-schema.md`). Every run appends a Run Log row, including failed runs. Every skill that finishes a workflow appends a `WebsiteExecutiveReport` row to the Reports tab (`references/contracts.md`).
 9. **No em dashes** in any copy. Write naturally.
@@ -59,7 +59,7 @@ One Google Sheet, **"Website OS Ledger"**, built by `seo-setup` from `assets/web
 
 ## Connectors
 
-Required: Shopify, Google Sheets, Google Drive. Recommended: Google Search Console, Gmail (reports). Optional: Google Analytics 4 (page-level traffic), Google Ads Keyword Planner (search volume), Semrush (volume, difficulty, competitor rankings). Before a skill acts in a connector, check its tools are available; if one is missing, name it and continue with what can be done.
+Required: Google Search Console, Google Analytics 4, Shopify, Google Sheets, Google Drive. Recommended: Gmail (reports). Before a skill acts in a connector, check its tools are available; if one is missing, name it and continue with what can be done.
 
 ## References
 

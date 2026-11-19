@@ -25,13 +25,13 @@ Indexability 20 · Metadata 25 · Structured data 15 · Images 10 · Internal li
 | Factor | Weight | How to score it (0 to 1) |
 |---|---|---|
 | Business value | 25 | Maps to a live product or collection the brand wants to sell (1); adjacent (0.5); none (0) |
-| Search demand | 15 | Volume or GSC impressions, log-scaled within the brand's own keyword set |
+| Search demand | 15 | Search Console impressions (28 days), log-scaled within the brand's own keyword set; 0.3 when the site has never appeared for it |
 | Ranking gap | 15 | Position 4 to 20 (1, closest wins); 21 to 50 (0.6); not ranking (0.4); top 3 (0.1) |
-| Winnability | 15 | 1 − difficulty/100 when known; 0.5 when unknown |
+| Conversion fit | 15 | GA4: the landing page or cluster it would feed converts or engages above the site's organic average (1); about average (0.6); below (0.3); no GA4 data (0.5) |
 | Intent fit | 10 | transactional or commercial (1); informational that feeds a priority cluster (0.7); navigational (0.2) |
 | Cluster importance | 10 | High-priority cluster (1), medium (0.6), low (0.3), no cluster (0.2) |
 | Cluster gap | 5 | Fills a missing supporting article in an existing cluster (1); new cluster seed (0.5) |
-| Competitive landscape | 5 | Competitors weak or absent (1); one strong competitor (0.5); dominated (0.2) |
+| CTR gap | 5 | Search Console CTR well below what its position usually earns (title/meta fix likely to pay off) (1); normal (0.5); no data (0.5) |
 
 Score = Σ weight × factor. Adjustments: refresh of an existing page that already ranks 4 to 20: +10 (cap 100). Cross-brand overlap without an assigned angle: score 0 (blocked). Unknown inputs use the stated defaults and are named in the rationale.
 

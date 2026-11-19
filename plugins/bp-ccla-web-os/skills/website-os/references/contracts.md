@@ -13,11 +13,9 @@ The only way work enters `content-intelligence`. Emitted by `keyword-intelligenc
     "primary": "string",
     "long_tail_variants": ["string"],
     "search_intent": "informational | commercial | transactional | navigational",
-    "search_volume": "number | null",
-    "volume_source": "semrush | google-ads | gsc-impressions | none",
-    "keyword_difficulty": "number 0-100 | null",
-    "current_position": "number | null",
-    "position_source": "gsc | semrush | null"
+    "gsc_impressions_28d": "number | null",
+    "gsc_clicks_28d": "number | null",
+    "current_position": "number | null (Search Console, impression-weighted)"
   },
   "scoring": {"opportunity_score": "number 0-100", "rationale": "string", "scored_by": "opportunity-scoring"},
   "cluster": {

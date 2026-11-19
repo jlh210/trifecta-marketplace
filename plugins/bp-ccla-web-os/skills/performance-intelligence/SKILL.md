@@ -1,6 +1,6 @@
 ---
 name: performance-intelligence
-description: "This skill should be used when the user asks how the blog or website content is performing for bathpromotions.com or customcandlesla.com: \"which posts are winning\", \"what's declining\", \"are we ranking better\", \"what did the blog drive\", \"monthly performance\", \"sync the Ledger with the site\", or when the monthly performance sweep runs. Pulls Search Console, GA4 and Shopify Analytics, syncs the Content tab with the live blog, and identifies winners, decliners, refresh candidates, linking gaps and new supporting-article opportunities.\n"
+description: "This skill should be used when the user asks how the blog or website content is performing for bathpromotions.com or customcandlesla.com: \"which posts are winning\", \"what's declining\", \"are we ranking better\", \"what did the blog drive\", \"monthly performance\", \"sync the Ledger with the site\", or when the monthly performance sweep runs. Pulls Google Search Console and GA4, syncs the Content tab with the live blog, and identifies winners, decliners, refresh candidates, linking gaps and new supporting-article opportunities.\n"
 metadata:
   version: "1.0.0"
 ---
@@ -14,16 +14,16 @@ Read every live article for each brand (Shopify `articles` for the connected sto
 
 ## Step 2: Pull performance (per brand)
 - **Search Console**, last 28 days vs prior 28 (and the last 90 days for the monthly sweep): per page clicks, impressions, CTR, impression-weighted position; top queries per page. Append Ranking History rows for tracked keywords (Source `gsc`) and update Keywords current position from them.
-- **GA4** (if connected): organic sessions, engaged sessions, average engagement time and key events (conversions) by landing page.
-- **Shopify Analytics** (connected store): store-wide sessions and conversion funnel, sales by product, orders by referrer source. Store-level only; label it so. It can show whether products the content links to are selling, not which article was read.
-- **Semrush** (optional): positions for tracked keywords, labeled separately.
+- **GA4:** organic sessions, engaged sessions, average engagement time and key events (conversions) by landing page, joined to Search Console pages by URL; plus the organic share of the site's sessions and conversions.
+
+Those two are the only data sources (`website-os/references/data-sources.md`).
 
 ## Step 3: Identify
 - **Winners:** top 10% of articles by clicks, or position improved 5+ into the top 10. Note what they share (format, cluster, length) as a learning.
-- **Decliners:** clicks down 30%+ with impressions steady or up, or position worse by 5+ (same source both windows).
+- **Decliners:** clicks down 30%+ with impressions steady or up, or position worse by 5+ .
 - **Refresh candidates:** live longer than `refresh_age_days` (Settings) with flat or falling clicks, decliners, and pages ranking 4 to 20 that could reach the top 3. Hand to `content-refresh`.
 - **Linking gaps:** pages with impressions but fewer than 3 internal links in, or orphans. Hand to `internal-linking`.
-- **New supporting-article opportunities:** queries a page gets impressions for that it doesn't answer (no matching H2 or FAQ), with 50+ impressions. Add to Keywords as `candidate` (Volume Source `gsc-impressions`) for `keyword-intelligence`.
+- **New supporting-article opportunities:** queries a page gets impressions for that it doesn't answer (no matching H2 or FAQ), with 50+ impressions. Add to Keywords as `candidate` (with their Search Console impressions) for `keyword-intelligence`.
 - **Not yet indexed or zero impressions after 30 days:** hand to `indexing-agent`.
 
 ## Step 4: Calibration (monthly sweep)
